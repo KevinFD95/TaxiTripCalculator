@@ -1,0 +1,209 @@
+import { useContext, useState, useEffect } from "react";
+import { ThemeContext } from "../context/ThemeContext";
+import { SettingsContext } from "../context/SettingsContext";
+import { AlertContext } from "../context/AlertContext";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
+
+import { CustomButton } from "../components/CustomButtonComponent";
+import { CustomTextInput } from "../components/CustomTextInputComponent";
+import { globalStyles } from "../styles/globalStyles";
+
+export default function PricesView() {
+  const { theme } = useContext(ThemeContext);
+  const { settings, setSettings } = useContext(SettingsContext);
+  const { showAlert } = useContext(AlertContext);
+
+  const themeStyles = globalStyles(theme);
+
+  const [dayTimePrice, setDayTimePrice] = useState(0.0);
+  const [dayKmPrice, setDayKmPrice] = useState(0.0);
+  const [nightTimePrice, setNightTimePrice] = useState(0.0);
+  const [nightKmPrice, setNightKmPrice] = useState(0.0);
+
+  const [pickPrice, setPickPrice] = useState(0.0);
+  const [groupPrice, setGroupPrice] = useState(0.0);
+  const [airportPrice, setAirportPrice] = useState(0.0);
+  const [stationPrice, setStationPrice] = useState(0.0);
+  const [casePrice, setCasePrice] = useState(0.0);
+
+  useEffect(() => {
+    setDayTimePrice(settings.dayTimePrice?.toString() || "0.0");
+    setDayKmPrice(settings.dayKmPrice?.toString() || "0.0");
+    setNightTimePrice(settings.nightTimePrice?.toString() || "0.0");
+    setNightKmPrice(settings.nightKmPrice?.toString() || "0.0");
+    setPickPrice(settings.pickPrice?.toString() || "0.0");
+    setGroupPrice(settings.groupPrice?.toString() || "0.0");
+    setAirportPrice(settings.airportPrice?.toString() || "0.0");
+    setStationPrice(settings.stationPrice?.toString() || "0.0");
+    setCasePrice(settings.casePrice?.toString() || "0.0");
+  }, [settings]);
+
+  const handleNumber = (text) => {
+    const normalized = text.replace(",", ".");
+    const cleaned = normalized.replace(/[^0-9.]/g, "");
+    const parts = cleaned.split(".");
+
+    if (parts.length === 1) {
+      return parts[0];
+    } else if (parts.length >= 2) {
+      const integerPart = parts[0];
+      const decimalPart = parts.slice(1).join("");
+      return integerPart + "." + decimalPart.slice(0, 2);
+    }
+  };
+
+  const saveSettings = () => {
+    setSettings({
+      dayTimePrice,
+      dayKmPrice,
+      nightTimePrice,
+      nightKmPrice,
+      pickPrice,
+      groupPrice,
+      airportPrice,
+      stationPrice,
+      casePrice,
+    });
+  };
+
+  return (
+    <View style={[themeStyles.mainContainer, { flex: 1 }]}>
+      <ScrollView>
+        <View style={styles.section}>
+          <Text style={{ textAlign: "center", fontSize: 20, fontWeight: 500 }}>
+            Tarifas
+          </Text>
+
+          <View>
+            <Text>Diurna:</Text>
+            <View style={styles.rowSection}>
+              <View style={{ flex: 1 }}>
+                <Text>Bajada de bandera (€)</Text>
+                <CustomTextInput
+                  size={"large"}
+                  placeholder={"€"}
+                  value={dayTimePrice}
+                  onChangeText={(text) => setDayTimePrice(handleNumber(text))}
+                  type="numeric"
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text>Precio del kilometro (€/km)</Text>
+                <CustomTextInput
+                  size={"large"}
+                  placeholder={"€/km"}
+                  value={dayKmPrice}
+                  onChangeText={(text) => setDayKmPrice(handleNumber(text))}
+                  type="numeric"
+                />
+              </View>
+            </View>
+          </View>
+          <View>
+            <Text>Nocturna:</Text>
+            <View style={styles.rowSection}>
+              <View style={{ flex: 1 }}>
+                <Text>Bajada de bandera (€)</Text>
+                <CustomTextInput
+                  size={"large"}
+                  placeholder={"€"}
+                  value={nightTimePrice}
+                  onChangeText={(text) => setNightTimePrice(handleNumber(text))}
+                  type="numeric"
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text>Precio del kilometro (€/km)</Text>
+                <CustomTextInput
+                  size={"large"}
+                  placeholder={"€/km"}
+                  value={nightKmPrice}
+                  onChangeText={(text) => setNightKmPrice(handleNumber(text))}
+                  type="numeric"
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={{ textAlign: "center", fontSize: 20, fontWeight: 500 }}>
+            Suplementos
+          </Text>
+          <View style={styles.subsection}>
+            <Text>Recogida:</Text>
+            <CustomTextInput
+              size={"large"}
+              placeholder={"Introduce el precio del suplemento en €"}
+              value={pickPrice}
+              onChangeText={(text) => setPickPrice(handleNumber(text))}
+              type="numeric"
+            />
+          </View>
+          <View style={styles.subsection}>
+            <Text>Grupo:</Text>
+            <CustomTextInput
+              size={"large"}
+              placeholder={"Introduce el precio del suplemento en €"}
+              value={groupPrice}
+              onChangeText={(text) => setGroupPrice(handleNumber(text))}
+              type="numeric"
+            />
+          </View>
+          <View style={styles.subsection}>
+            <Text>Aeropuerto:</Text>
+            <CustomTextInput
+              size={"large"}
+              placeholder={"Introduce el precio del suplemento en €"}
+              value={airportPrice}
+              onChangeText={(text) => setAirportPrice(handleNumber(text))}
+              type="numeric"
+            />
+          </View>
+          <View style={styles.subsection}>
+            <Text>Salida de estacion:</Text>
+            <CustomTextInput
+              size={"large"}
+              placeholder={"Introduce el precio del suplemento en €"}
+              value={stationPrice}
+              onChangeText={(text) => setStationPrice(handleNumber(text))}
+              type="numeric"
+            />
+          </View>
+          <View style={styles.subsection}>
+            <Text>Precio maletas:</Text>
+            <CustomTextInput
+              size={"large"}
+              placeholder={"Introduce el precio del suplemento en €"}
+              value={casePrice}
+              onChangeText={(text) => setCasePrice(handleNumber(text))}
+              type="numeric"
+            />
+          </View>
+        </View>
+      </ScrollView>
+      <CustomButton
+        size={"large"}
+        text={"Guardar datos"}
+        onPress={() => {
+          saveSettings();
+          showAlert({ title: "Aviso", message: "Datos guardados" });
+        }}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  section: {
+    marginBottom: 20,
+  },
+  subsection: {
+    marginBottom: 5,
+  },
+  rowSection: {
+    flexDirection: "row",
+    gap: 20,
+    alignItems: "center",
+  },
+});

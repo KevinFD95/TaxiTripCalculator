@@ -20,10 +20,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "package": "com.kevinfd95.TaxiTripCalculator"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e7d4e3fd-8888-4e52-a9dd-47c41bc936cf"
+      }
     }
   }
 }
