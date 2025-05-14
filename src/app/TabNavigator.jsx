@@ -1,7 +1,6 @@
-import { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { ThemeContext } from "../context/ThemeContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 import HomeNav from "./Home.jsx";
 import CalculatorNav from "./Calculator.jsx";
@@ -17,7 +16,7 @@ const Tab = createBottomTabNavigator();
 const iconSize = 32;
 
 export default function TabNavigator() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={{

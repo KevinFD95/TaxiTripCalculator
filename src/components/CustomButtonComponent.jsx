@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 const sizeMap = {
@@ -9,7 +8,7 @@ const sizeMap = {
 };
 
 export function CustomButton({ size, text, onPress }) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   return (
     <Pressable
       style={[styles(theme).buttonStyles, { width: sizeMap[size] ?? 0 }]}

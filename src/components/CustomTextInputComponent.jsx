@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { ThemeContext } from "../context/ThemeContext";
+import { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 import { TextInput, StyleSheet } from "react-native";
 
 const sizeMap = {
@@ -15,7 +15,7 @@ export function CustomTextInput({
   placeholder,
   type,
 }) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
 
   return (

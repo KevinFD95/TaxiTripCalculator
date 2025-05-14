@@ -1,8 +1,10 @@
-import { useCallback, useContext, useState } from "react";
+import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
-import { ThemeContext } from "../context/ThemeContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
+import { useAlert } from "../context/AlertContext.jsx";
+import { useSettings } from "../context/SettingsContext.jsx";
+
 import { globalStyles } from "../styles/globalStyles.js";
 
 import {
@@ -17,11 +19,13 @@ import AddIcon from "../../assets/icons/AddIcon.jsx";
 import RemoveIcon from "../../assets/icons/RemoveIcon.jsx";
 
 export default function CalculatorNav() {
-  const { theme } = useContext(ThemeContext);
-  const themeStyles = globalStyles(theme);
-  const navigation = useNavigation();
+  const { theme } = useTheme();
+  const { showAlert } = useAlert();
+  const { settings } = useSettings();
 
-  const [distance, setDistance] = useState(0);
+  const themeStyles = globalStyles(theme);
+
+  const [distance, setDistance] = useState("");
   const [toll, setToll] = useState(0.0);
 
   const [dayTime, setDayTime] = useState(true);
@@ -33,20 +37,7 @@ export default function CalculatorNav() {
   const [station, setStation] = useState(false);
   const [suitcase, setSuitcase] = useState(0);
 
-  const priceKm = dayTime ? 1.6 : 1.75;
-  const pickPrice = 2.1;
-  const groupPrice = 4.5;
-  const airportPrice = 5;
-
-  let [result, setResult] = useState(0.0);
-
-  useFocusEffect(
-    useCallback(() => {
-      navigation.getParent()?.setOptions({
-        title: "Calculadora",
-      });
-    }, [navigation]),
-  );
+  let [result, setResult] = useState("0.00");
 
   return (
     <View style={themeStyles.mainContainer}>
@@ -97,7 +88,16 @@ export default function CalculatorNav() {
         </View>
       </View>
 
-      <Text style={styles.section}>Precio del km: {priceKm}€</Text>
+      <View style={styles.valuesSection}>
+        <Text style={styles.section}>
+          Bajada de bandera:{" "}
+          {dayTime ? settings.dayTimePrice : settings.nightTimePrice}€
+        </Text>
+        <Text style={styles.section}>
+          Precio del km: {dayTime ? settings.dayKmPrice : settings.nightKmPrice}
+          €
+        </Text>
+      </View>
 
       <View style={styles.section}>
         <Text>Suplementos:</Text>
@@ -158,7 +158,7 @@ export default function CalculatorNav() {
         <CustomButton
           size={"large"}
           text={"Calcular precio"}
-          onPress={() => calculatePrice(distance, toll, priceKm)}
+          onPress={() => calculatePrice(showAlert, distance, toll)}
         />
       </View>
     </View>
@@ -179,20 +179,38 @@ export default function CalculatorNav() {
     setToll(result);
   }
 
-  function calculatePrice(distance, toll, priceKm) {
+  function calculatePrice(showAlert, distance, toll) {
     let supplements = 0;
-
-    supplements += pick ? pickPrice : 0;
-    supplements += group ? groupPrice : 0;
-    supplements += airport ? airportPrice : 0;
+    let totalPrice = 0;
+    let result = 0;
 
     const numericDistance = parseFloat(distance) || 0;
     const numericToll = parseFloat(toll) || 0;
 
-    const totalPrice = parseFloat(
-      numericDistance * priceKm + numericToll + supplements,
+    if (isNaN(numericDistance) || numericDistance === 0) {
+      showAlert({ title: "Aviso", message: "Introduce distancia" });
+      setResult(totalPrice.toFixed(2));
+      return;
+    }
+
+    const flagPrice = parseFloat(
+      dayTime ? settings.dayTimePrice : settings.nightTimePrice,
     );
-    const result = totalPrice.toFixed(2);
+    const priceKm = parseFloat(
+      dayTime ? settings.dayKmPrice : settings.nightKmPrice,
+    );
+
+    supplements += parseFloat(pick ? settings.pickPrice : 0);
+    supplements += parseFloat(group ? settings.groupPrice : 0);
+    supplements += parseFloat(airport ? settings.airportPrice : 0);
+    supplements += parseFloat(station ? settings.stationPrice : 0);
+    supplements += parseFloat(suitcase * settings.casePrice);
+
+    totalPrice = parseFloat(
+      flagPrice + priceKm * numericDistance + numericToll + supplements,
+    );
+
+    result = totalPrice.toFixed(2);
     setResult(result);
   }
 }
@@ -201,6 +219,13 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 20,
     gap: 5,
+  },
+
+  valuesSection: {
+    flexWrap: "wrap",
+    flexDirection: "row",
+    gap: 40,
+    justifyContent: "center",
   },
 
   iconLabel: {

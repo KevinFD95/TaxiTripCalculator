@@ -1,7 +1,7 @@
-import { useContext, useState, useEffect } from "react";
-import { ThemeContext } from "../context/ThemeContext";
-import { SettingsContext } from "../context/SettingsContext";
-import { AlertContext } from "../context/AlertContext";
+import { useState, useEffect } from "react";
+import { useTheme } from "../context/ThemeContext";
+import { useSettings } from "../context/SettingsContext";
+import { useAlert } from "../context/AlertContext";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 
 import { CustomButton } from "../components/CustomButtonComponent";
@@ -9,9 +9,9 @@ import { CustomTextInput } from "../components/CustomTextInputComponent";
 import { globalStyles } from "../styles/globalStyles";
 
 export default function PricesView() {
-  const { theme } = useContext(ThemeContext);
-  const { settings, setSettings } = useContext(SettingsContext);
-  const { showAlert } = useContext(AlertContext);
+  const { theme } = useTheme();
+  const { settings, setSettings } = useSettings();
+  const { showAlert } = useAlert();
 
   const themeStyles = globalStyles(theme);
 

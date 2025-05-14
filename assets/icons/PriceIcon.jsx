@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { ThemeContext } from "../../src/context/ThemeContext.jsx";
+import { useTheme } from "../../src/context/ThemeContext.jsx";
 import Svg, { Path } from "react-native-svg";
 
 const PriceIcon = ({ size, filled }) => {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   return (
     <Svg height={size} viewBox="0 -960 960 960" width={size}>

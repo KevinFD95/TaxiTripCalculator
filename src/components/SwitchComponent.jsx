@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Pressable, Animated } from "react-native";
 
-import { ThemeContext } from "../context/ThemeContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 export default function CustomSwitch({ value = false, onValueChange }) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const [isOn, setIsOn] = useState(value);
   const animation = useState(new Animated.Value(value ? 1 : 0))[0];
 

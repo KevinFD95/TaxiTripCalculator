@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import { Modal, Text, View, Pressable, StyleSheet } from "react-native";
 
 export function Popup({ visible, title, message, onClose }) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   return (
     <Modal transparent visible={visible} animationType="fade">
       <View style={styles(theme).overlay}>

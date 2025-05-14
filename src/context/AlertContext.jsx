@@ -1,8 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 import { Popup } from "../components/PopupComponent.jsx";
 
-export const AlertContext = createContext();
+const AlertContext = createContext();
+
+export const useAlert = () => useContext(AlertContext);
 
 export const AlertProvider = ({ children }) => {
   const [alertState, setAlertState] = useState({

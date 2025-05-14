@@ -1,7 +1,9 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const SettingsContext = createContext();
+const SettingsContext = createContext();
+
+export const useSettings = () => useContext(SettingsContext);
 
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({

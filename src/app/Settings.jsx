@@ -1,7 +1,6 @@
-import { useContext } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
-import { ThemeContext } from "../context/ThemeContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
 import { globalStyles } from "../styles/globalStyles.js";
 
 // import CustomSwitch from "../components/SwitchComponent.jsx";
@@ -10,7 +9,7 @@ import LightModeIcon from "../../assets/icons/LightModeIcon.jsx";
 import DarkModeIcon from "../../assets/icons/DarkModeIcon.jsx";
 
 export default function SettingsNav() {
-  const { theme, mode, toggleTheme } = useContext(ThemeContext);
+  const { theme, mode, toggleTheme } = useTheme();
   const themeStyles = globalStyles(theme);
   const lightmode = mode === "light";
   const darkmode = mode === "dark";

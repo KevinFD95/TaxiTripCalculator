@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { ThemeContext } from "../../src/context/ThemeContext";
+import { useTheme } from "../../src/context/ThemeContext";
 import Svg, { Path } from "react-native-svg";
 
 const RadiobuttonIcon = ({ size, checked }) => {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   return (
     <Svg height={size} viewBox="0 -960 960 960" width={size}>

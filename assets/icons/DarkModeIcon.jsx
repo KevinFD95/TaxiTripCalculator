@@ -1,9 +1,8 @@
 import Svg, { Path } from "react-native-svg";
-import { useContext } from "react";
-import { ThemeContext } from "../../src/context/ThemeContext.jsx";
+import { useTheme } from "../../src/context/ThemeContext.jsx";
 
 const DarkModeIcon = ({ size, focused }) => {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   return (
     <Svg height={size} viewBox="0 -960 960 960" width={size}>

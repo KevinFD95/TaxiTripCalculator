@@ -1,11 +1,13 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
 
 import lightTheme from "../themes/lightTheme.js";
 import darkTheme from "../themes/darkTheme.js";
 
-export const ThemeContext = createContext();
+const ThemeContext = createContext();
+
+export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(lightTheme);
