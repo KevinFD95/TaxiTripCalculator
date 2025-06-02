@@ -10,15 +10,15 @@ import TabNavigator from "./app/TabNavigator";
 export default function App() {
   return (
     <ThemeProvider>
-      <SettingsProvider>
-        <AlertProvider>
+      <AlertProvider>
+        <SettingsProvider>
           <View style={{ flex: 1 }}>
             <NavigationContainer>
               <TabNavigator />
             </NavigationContainer>
           </View>
-        </AlertProvider>
-      </SettingsProvider>
+        </SettingsProvider>
+      </AlertProvider>
     </ThemeProvider>
   );
 }

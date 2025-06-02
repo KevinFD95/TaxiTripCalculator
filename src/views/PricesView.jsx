@@ -27,44 +27,19 @@ export default function PricesView() {
   const [casePrice, setCasePrice] = useState(0.0);
 
   useEffect(() => {
-    setDayTimePrice(settings.dayTimePrice?.toString() || "0.0");
-    setDayKmPrice(settings.dayKmPrice?.toString() || "0.0");
-    setNightTimePrice(settings.nightTimePrice?.toString() || "0.0");
-    setNightKmPrice(settings.nightKmPrice?.toString() || "0.0");
-    setPickPrice(settings.pickPrice?.toString() || "0.0");
-    setGroupPrice(settings.groupPrice?.toString() || "0.0");
-    setAirportPrice(settings.airportPrice?.toString() || "0.0");
-    setStationPrice(settings.stationPrice?.toString() || "0.0");
-    setCasePrice(settings.casePrice?.toString() || "0.0");
+    loadSettings(
+      settings,
+      setDayTimePrice,
+      setDayKmPrice,
+      setNightTimePrice,
+      setNightKmPrice,
+      setPickPrice,
+      setGroupPrice,
+      setAirportPrice,
+      setStationPrice,
+      setCasePrice,
+    );
   }, [settings]);
-
-  const handleNumber = (text) => {
-    const normalized = text.replace(",", ".");
-    const cleaned = normalized.replace(/[^0-9.]/g, "");
-    const parts = cleaned.split(".");
-
-    if (parts.length === 1) {
-      return parts[0];
-    } else if (parts.length >= 2) {
-      const integerPart = parts[0];
-      const decimalPart = parts.slice(1).join("");
-      return integerPart + "." + decimalPart.slice(0, 2);
-    }
-  };
-
-  const saveSettings = () => {
-    setSettings({
-      dayTimePrice,
-      dayKmPrice,
-      nightTimePrice,
-      nightKmPrice,
-      pickPrice,
-      groupPrice,
-      airportPrice,
-      stationPrice,
-      casePrice,
-    });
-  };
 
   return (
     <View style={[themeStyles.mainContainer, { flex: 1 }]}>
@@ -186,12 +161,85 @@ export default function PricesView() {
         size={"large"}
         text={"Guardar datos"}
         onPress={() => {
-          saveSettings();
+          saveSettings(
+            setSettings,
+            dayTimePrice,
+            dayKmPrice,
+            nightTimePrice,
+            nightKmPrice,
+            pickPrice,
+            groupPrice,
+            airportPrice,
+            stationPrice,
+            casePrice,
+          );
           showAlert({ title: "Aviso", message: "Datos guardados" });
         }}
       />
     </View>
   );
+}
+
+function loadSettings(
+  settings,
+  setDayTimePrice,
+  setDayKmPrice,
+  setNightTimePrice,
+  setNightKmPrice,
+  setPickPrice,
+  setGroupPrice,
+  setAirportPrice,
+  setStationPrice,
+  setCasePrice,
+) {
+  setDayTimePrice(settings.dayTimePrice?.toString() || "0.0");
+  setDayKmPrice(settings.dayKmPrice?.toString() || "0.0");
+  setNightTimePrice(settings.nightTimePrice?.toString() || "0.0");
+  setNightKmPrice(settings.nightKmPrice?.toString() || "0.0");
+  setPickPrice(settings.pickPrice?.toString() || "0.0");
+  setGroupPrice(settings.groupPrice?.toString() || "0.0");
+  setAirportPrice(settings.airportPrice?.toString() || "0.0");
+  setStationPrice(settings.stationPrice?.toString() || "0.0");
+  setCasePrice(settings.casePrice?.toString() || "0.0");
+}
+
+function saveSettings(
+  setSettings,
+  dayTimePrice,
+  dayKmPrice,
+  nightTimePrice,
+  nightKmPrice,
+  pickPrice,
+  groupPrice,
+  airportPrice,
+  stationPrice,
+  casePrice,
+) {
+  setSettings({
+    dayTimePrice,
+    dayKmPrice,
+    nightTimePrice,
+    nightKmPrice,
+    pickPrice,
+    groupPrice,
+    airportPrice,
+    stationPrice,
+    casePrice,
+  });
+}
+
+function handleNumber(text) {
+  const normalized = text.replace(",", ".");
+  const cleaned = normalized.replace(/[^0-9.]/g, "");
+  const parts = cleaned.split(".");
+
+  if (parts.length === 1) {
+    return parts[0];
+  } else if (parts.length >= 2) {
+    const integerPart = parts[0];
+    const decimalPart = parts.slice(1).join("");
+    return integerPart + "." + decimalPart.slice(0, 2);
+  }
 }
 
 const styles = StyleSheet.create({

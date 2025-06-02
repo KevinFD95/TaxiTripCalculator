@@ -150,10 +150,12 @@ export default function CalculatorNav() {
         </View>
       </View>
 
-      <View style={{ flex: 1, justifyContent: "space-around" }}>
-        <Text style={[styles.section, { textAlign: "center", fontSize: 50 }]}>
-          {result}€
-        </Text>
+      <View style={{ flex: 1, justifyContent: "space-between" }}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={[styles.section, { textAlign: "center", fontSize: 50 }]}>
+            {result}€
+          </Text>
+        </View>
 
         <CustomButton
           size={"large"}

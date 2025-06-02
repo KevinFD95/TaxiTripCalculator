@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TaxiTripCalculator",
-    "slug": "TaxiTripCalculator",
+    "name": "Taxi Price Calculator",
+    "slug": "taxi-trip-calculator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,6 +29,9 @@
       "eas": {
         "projectId": "e7d4e3fd-8888-4e52-a9dd-47c41bc936cf"
       }
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
