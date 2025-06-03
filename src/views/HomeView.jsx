@@ -1,6 +1,7 @@
 import { View, Text, FlatList } from "react-native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
+import { useAlert } from "../context/AlertContext.jsx";
 import { useHistory } from "../context/HistoryContext.jsx";
 
 import { globalStyles } from "../styles/globalStyles.js";
@@ -14,6 +15,7 @@ export default function HomeNav() {
   const navigation = useNavigation();
 
   const { theme } = useTheme();
+  const { showConfirm } = useAlert();
   const { history, delOp, cleanHistory } = useHistory();
 
   const themeStyles = globalStyles(theme);
@@ -43,7 +45,13 @@ export default function HomeNav() {
                 date={item.date}
                 price={item.totalPrice + "€"}
                 onPress={() => handleCardPress(item)}
-                onLongPress={() => delOp(item.id)}
+                onLongPress={() => {
+                  showConfirm({
+                    title: "Borrar viaje",
+                    message: "¿Estás seguro que quieres borrar este cálculo?",
+                    onConfirm: () => delOp(item.id),
+                  });
+                }}
               />
             )}
             contentContainerStyle={{ gap: 20 }}
@@ -51,14 +59,18 @@ export default function HomeNav() {
           <CustomButton
             text={"Limpiar historial"}
             size={"large"}
-            onPress={cleanHistory}
+            onPress={() => {
+              showConfirm({
+                title: "Limpiar historial",
+                message: "¿Estás seguro que quieres limpiar el historial?",
+                onConfirm: () => cleanHistory(),
+              });
+            }}
           />
         </View>
       ) : (
         <View style={styles.emptyContainer}>
-          <Text style={{ color: theme["color-text"] }}>
-            El historial está vacío
-          </Text>
+          <Text style={themeStyles.h6}>El historial está vacío</Text>
         </View>
       )}
     </View>

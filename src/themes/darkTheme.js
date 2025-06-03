@@ -6,6 +6,8 @@ export default {
   "tab-navigator-text": "#fdfefe",
   "color-text": "#fdfefe",
   "button-background": "#d6dbdf",
+  "button-text": "#17202a",
+  "button-border-color": "#fdfefe",
   "input-border-color": "#fdfefe",
 };
 

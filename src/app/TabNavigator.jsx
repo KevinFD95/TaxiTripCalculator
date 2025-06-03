@@ -12,12 +12,15 @@ import HomeIcon from "../../assets/icons/HomeIcon.jsx";
 import CalcIcon from "../../assets/icons/CalcIcon.jsx";
 import PriceIcon from "../../assets/icons/PriceIcon.jsx";
 import SettingsIcon from "../../assets/icons/SettingsIcon.jsx";
+import { globalStyles } from "../styles/globalStyles.js";
 
 const Tab = createBottomTabNavigator();
 const iconSize = 42;
 
 export default function TabNavigator() {
   const { theme } = useTheme();
+  const themeStyles = globalStyles(theme);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -28,7 +31,7 @@ export default function TabNavigator() {
           borderBottomWidth: 0,
         },
         headerTitleAlign: "left",
-        headerTitleStyle: { color: theme["tab-navigator-text"], fontSize: 32 },
+        headerTitleStyle: themeStyles.h1,
         tabBarStyle: {
           backgroundColor: theme["tab-navigator"],
           height: 70,

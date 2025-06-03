@@ -26,7 +26,7 @@ export function ConfirmPopup({ visible, title, message, onConfirm, onCancel }) {
         <View style={styles(theme).alertBox}>
           <Text style={styles(theme).title}>{title}</Text>
           <Text style={styles(theme).message}>{message}</Text>
-          <View>
+          <View style={styles(theme).buttonContainer}>
             <Pressable style={styles(theme).button} onPress={onConfirm}>
               <Text style={styles(theme).buttonText}>Sí</Text>
             </Pressable>
@@ -98,7 +98,9 @@ const styles = (theme) => {
     },
 
     buttonText: {
-      color: theme["color-text"],
+      color: theme["button-text"],
+      fontSize: 16,
+      fontWeight: "500",
       textAlign: "center",
       paddingHorizontal: 15,
     },
@@ -106,7 +108,7 @@ const styles = (theme) => {
     buttonContainer: {
       flexDirection: "row",
       justifyContent: "center",
-      gap: 50,
+      gap: 20,
     },
   });
 };

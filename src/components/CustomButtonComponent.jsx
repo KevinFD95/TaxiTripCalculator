@@ -1,5 +1,6 @@
-import { useTheme } from "../context/ThemeContext";
 import { Pressable, StyleSheet, Text } from "react-native";
+
+import { useTheme } from "../context/ThemeContext";
 
 const sizeMap = {
   large: "100%",
@@ -9,12 +10,13 @@ const sizeMap = {
 
 export function CustomButton({ size, text, onPress }) {
   const { theme } = useTheme();
+
   return (
     <Pressable
       style={[styles(theme).buttonStyles, { width: sizeMap[size] ?? 0 }]}
       onPress={onPress}
     >
-      <Text>{text}</Text>
+      <Text style={styles(theme).buttonText}>{text}</Text>
     </Pressable>
   );
 }
@@ -30,10 +32,16 @@ const styles = (theme) => {
       height: 40,
       marginVertical: 10,
       borderWidth: 1,
-      borderColor: theme["input-border-color"],
+      borderColor: theme["button-border-color"],
       borderRadius: 5,
       alignItems: "center",
       justifyContent: "center",
+    },
+
+    buttonText: {
+      color: theme["button-text"],
+      fontSize: 16,
+      fontWeight: "500",
     },
   });
 };

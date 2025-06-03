@@ -45,15 +45,13 @@ export default function PricesView() {
     <View style={[themeStyles.mainContainer, { flex: 1 }]}>
       <ScrollView>
         <View style={styles.section}>
-          <Text style={{ textAlign: "center", fontSize: 20, fontWeight: 500 }}>
-            Tarifas
-          </Text>
+          <Text style={[themeStyles.h2, { textAlign: "center" }]}>Tarifas</Text>
 
           <View>
-            <Text>Diurna:</Text>
+            <Text style={themeStyles.h5}>Diurna:</Text>
             <View style={styles.rowSection}>
               <View style={{ flex: 1 }}>
-                <Text>Bajada de bandera (€)</Text>
+                <Text style={themeStyles.h6}>Bajada de bandera (€)</Text>
                 <CustomTextInput
                   size={"large"}
                   placeholder={"€"}
@@ -63,7 +61,7 @@ export default function PricesView() {
                 />
               </View>
               <View style={{ flex: 1 }}>
-                <Text>Precio del kilometro (€/km)</Text>
+                <Text style={themeStyles.h6}>Precio del km (€/km)</Text>
                 <CustomTextInput
                   size={"large"}
                   placeholder={"€/km"}
@@ -75,10 +73,10 @@ export default function PricesView() {
             </View>
           </View>
           <View>
-            <Text>Nocturna:</Text>
+            <Text style={themeStyles.h5}>Nocturna:</Text>
             <View style={styles.rowSection}>
               <View style={{ flex: 1 }}>
-                <Text>Bajada de bandera (€)</Text>
+                <Text style={themeStyles.h6}>Bajada de bandera (€)</Text>
                 <CustomTextInput
                   size={"large"}
                   placeholder={"€"}
@@ -88,7 +86,7 @@ export default function PricesView() {
                 />
               </View>
               <View style={{ flex: 1 }}>
-                <Text>Precio del kilometro (€/km)</Text>
+                <Text style={themeStyles.h6}>Precio del km (€/km)</Text>
                 <CustomTextInput
                   size={"large"}
                   placeholder={"€/km"}
@@ -102,11 +100,11 @@ export default function PricesView() {
         </View>
 
         <View style={styles.section}>
-          <Text style={{ textAlign: "center", fontSize: 20, fontWeight: 500 }}>
+          <Text style={[themeStyles.h2, { textAlign: "center" }]}>
             Suplementos
           </Text>
           <View style={styles.subsection}>
-            <Text>Recogida:</Text>
+            <Text style={themeStyles.h6}>Recogida:</Text>
             <CustomTextInput
               size={"large"}
               placeholder={"Introduce el precio del suplemento en €"}
@@ -116,7 +114,7 @@ export default function PricesView() {
             />
           </View>
           <View style={styles.subsection}>
-            <Text>Grupo:</Text>
+            <Text style={themeStyles.h6}>Grupo:</Text>
             <CustomTextInput
               size={"large"}
               placeholder={"Introduce el precio del suplemento en €"}
@@ -126,7 +124,7 @@ export default function PricesView() {
             />
           </View>
           <View style={styles.subsection}>
-            <Text>Aeropuerto:</Text>
+            <Text style={themeStyles.h6}>Aeropuerto:</Text>
             <CustomTextInput
               size={"large"}
               placeholder={"Introduce el precio del suplemento en €"}
@@ -136,7 +134,7 @@ export default function PricesView() {
             />
           </View>
           <View style={styles.subsection}>
-            <Text>Salida de estacion:</Text>
+            <Text style={themeStyles.h6}>Salida de estacion:</Text>
             <CustomTextInput
               size={"large"}
               placeholder={"Introduce el precio del suplemento en €"}
@@ -146,7 +144,7 @@ export default function PricesView() {
             />
           </View>
           <View style={styles.subsection}>
-            <Text>Precio maletas:</Text>
+            <Text style={themeStyles.h6}>Precio maletas:</Text>
             <CustomTextInput
               size={"large"}
               placeholder={"Introduce el precio del suplemento en €"}
@@ -192,15 +190,15 @@ function loadSettings(
   setStationPrice,
   setCasePrice,
 ) {
-  setDayTimePrice(settings.dayTimePrice?.toString() || "0.0");
-  setDayKmPrice(settings.dayKmPrice?.toString() || "0.0");
-  setNightTimePrice(settings.nightTimePrice?.toString() || "0.0");
-  setNightKmPrice(settings.nightKmPrice?.toString() || "0.0");
-  setPickPrice(settings.pickPrice?.toString() || "0.0");
-  setGroupPrice(settings.groupPrice?.toString() || "0.0");
-  setAirportPrice(settings.airportPrice?.toString() || "0.0");
-  setStationPrice(settings.stationPrice?.toString() || "0.0");
-  setCasePrice(settings.casePrice?.toString() || "0.0");
+  setDayTimePrice(settings.dayTimePrice?.toString() || "0.00");
+  setDayKmPrice(settings.dayKmPrice?.toString() || "0.00");
+  setNightTimePrice(settings.nightTimePrice?.toString() || "0.00");
+  setNightKmPrice(settings.nightKmPrice?.toString() || "0.00");
+  setPickPrice(settings.pickPrice?.toString() || "0.00");
+  setGroupPrice(settings.groupPrice?.toString() || "0.00");
+  setAirportPrice(settings.airportPrice?.toString() || "0.00");
+  setStationPrice(settings.stationPrice?.toString() || "0.00");
+  setCasePrice(settings.casePrice?.toString() || "0.00");
 }
 
 function saveSettings(

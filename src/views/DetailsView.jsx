@@ -9,10 +9,13 @@ import { globalStyles } from "../styles/globalStyles.js";
 
 import { CustomTextInput } from "../components/CustomTextInputComponent.jsx";
 import { CustomButton } from "../components/CustomButtonComponent.jsx";
+import { useAlert } from "../context/AlertContext.jsx";
 
 export default function DetailsView({ navigation, route }) {
   const { item } = route.params;
+
   const { theme } = useTheme();
+  const { showAlert } = useAlert();
   const { updateOp } = useHistory();
 
   const [inputValue, setInputValue] = useState("");
@@ -47,8 +50,8 @@ export default function DetailsView({ navigation, route }) {
       <View style={styles.detailsContainer}>
         <View>
           <View style={styles.rowContainer}>
-            <Text>Título:</Text>
-            <Text>Fecha: {item.date}</Text>
+            <Text style={themeStyles.h3}>Título:</Text>
+            <Text style={themeStyles.h6}>Fecha: {item.date}</Text>
           </View>
           <CustomTextInput
             size={"large"}
@@ -57,45 +60,72 @@ export default function DetailsView({ navigation, route }) {
           />
         </View>
 
-        <Text>Tarifa: {item.tariff}</Text>
-        <Text>Precio bajada de bandera: {item.flagPrice}€</Text>
-        <Text>Distancia: {item.distance}km</Text>
-        <Text>Precio del km: {item.priceKm}€/km</Text>
+        <Text style={themeStyles.h6}>Tarifa: {item.tariff}</Text>
+        <Text style={themeStyles.h6}>
+          Precio bajada de bandera: {item.flagPrice}€
+        </Text>
+        <Text style={themeStyles.h6}>Distancia: {item.distance}km</Text>
+        <Text style={themeStyles.h6}>Precio del km: {item.priceKm}€/km</Text>
 
-        {item.toll !== 0 && <Text>Peaje: {item.toll}</Text>}
+        <View style={styles.suppliesContainer}>
+          {item.toll !== 0 && (
+            <Text style={themeStyles.h6}>Peaje: {item.toll}</Text>
+          )}
 
-        {item.supplements.pick && (
-          <Text>Recogida: {item.supplements.pickPrice}€</Text>
-        )}
+          {item.supplements.pick && (
+            <Text style={themeStyles.h6}>
+              Recogida: {item.supplements.pickPrice}€
+            </Text>
+          )}
 
-        {item.supplements.group && (
-          <Text>Grupo: {item.supplements.groupPrice}€</Text>
-        )}
+          {item.supplements.group && (
+            <Text style={themeStyles.h6}>
+              Grupo: {item.supplements.groupPrice}€
+            </Text>
+          )}
 
-        {item.supplements.airport && (
-          <Text>Aeropuerto: {item.supplements.airportPrice}</Text>
-        )}
+          {item.supplements.airport && (
+            <Text style={themeStyles.h6}>
+              Aeropuerto: {item.supplements.airportPrice}
+            </Text>
+          )}
 
-        {item.supplements.station && (
-          <Text>Salida de estación: {item.supplements.stationPrice}</Text>
-        )}
+          {item.supplements.station && (
+            <Text style={themeStyles.h6}>
+              Salida de estación: {item.supplements.stationPrice}
+            </Text>
+          )}
 
-        {item.supplements.suitcase > 0 && (
-          <View style={styles.rowContainer}>
-            <View>
-              <Text>Maletas: {item.supplements.suitcase}</Text>
-              <Text>Precio por maleta: {item.supplements.suitcasePrice}€</Text>
+          {item.supplements.suitcase > 0 && (
+            <View style={styles.rowContainer}>
+              <View>
+                <Text style={themeStyles.h6}>
+                  Maletas: {item.supplements.suitcase}
+                </Text>
+                <Text style={themeStyles.h6}>
+                  Precio por maleta: {item.supplements.suitcasePrice}€
+                </Text>
+              </View>
+              <Text style={themeStyles.h6}>Total: {suitcaseTotal}</Text>
             </View>
-            <Text>Total: {suitcaseTotal}</Text>
-          </View>
-        )}
+          )}
+        </View>
 
-        <Text>Precio total: {item.totalPrice}€</Text>
+        <View style={[styles.rowContainer, styles.totalPriceContainer]}>
+          <Text style={themeStyles.h6}>Precio total:</Text>
+          <Text style={themeStyles.h1}>{item.totalPrice}€</Text>
+        </View>
       </View>
       <CustomButton
         size={"large"}
         text={"Guardar cambios"}
-        onPress={() => handleSaveTitle()}
+        onPress={() => {
+          showAlert({
+            title: "Éxito",
+            message: "Título guardado correctamente",
+          });
+          handleSaveTitle();
+        }}
       />
     </View>
   );
@@ -106,9 +136,20 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 10,
   },
+
   rowContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+
+  suppliesContainer: {
+    gap: 20,
+  },
+
+  totalPriceContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

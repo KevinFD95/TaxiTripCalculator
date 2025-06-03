@@ -46,7 +46,7 @@ export default function CalculatorNav() {
   return (
     <View style={themeStyles.mainContainer}>
       <View style={styles.section}>
-        <Text>Introduce la distancia (km):</Text>
+        <Text style={themeStyles.h6}>Introduce la distancia (km):</Text>
         <CustomTextInput
           size={"large"}
           placeholder={"Selecciona la ruta para la distancia real"}
@@ -55,7 +55,7 @@ export default function CalculatorNav() {
           type="numeric"
         />
 
-        <Text>Introduce el precio del peaje:</Text>
+        <Text style={themeStyles.h6}>Introduce el precio del peaje:</Text>
         <CustomTextInput
           size={"large"}
           placeholder={"Precio en euros"}
@@ -66,7 +66,7 @@ export default function CalculatorNav() {
       </View>
 
       <View style={styles.section}>
-        <Text>Tarifa: </Text>
+        <Text style={themeStyles.h6}>Tarifa: </Text>
 
         <View style={styles.radiobuttonContainer}>
           <View style={styles.iconLabel}>
@@ -77,7 +77,7 @@ export default function CalculatorNav() {
               }}
               icon={<RadiobuttonIcon size={32} checked={dayTime} />}
             />
-            <Text>Diurna</Text>
+            <Text style={themeStyles.h6}>Diurna</Text>
           </View>
           <View style={styles.iconLabel}>
             <CustomIconButton
@@ -87,24 +87,24 @@ export default function CalculatorNav() {
               }}
               icon={<RadiobuttonIcon size={32} checked={nightTime} />}
             />
-            <Text>Nocturna</Text>
+            <Text style={themeStyles.h6}>Nocturna</Text>
           </View>
         </View>
       </View>
 
       <View style={styles.valuesSection}>
-        <Text style={styles.section}>
+        <Text style={[styles.section, themeStyles.p]}>
           Bajada de bandera:{" "}
           {dayTime ? settings.dayTimePrice : settings.nightTimePrice}€
         </Text>
-        <Text style={styles.section}>
+        <Text style={[styles.section, themeStyles.p]}>
           Precio del km: {dayTime ? settings.dayKmPrice : settings.nightKmPrice}
           €
         </Text>
       </View>
 
       <View style={styles.section}>
-        <Text>Suplementos:</Text>
+        <Text style={themeStyles.h4}>Suplementos:</Text>
 
         <View style={styles.checkboxContainer}>
           <View style={styles.iconLabel}>
@@ -112,28 +112,28 @@ export default function CalculatorNav() {
               onPress={() => setPick(!pick)}
               icon={<CheckboxIcon size={32} checked={pick} />}
             />
-            <Text>Recogida</Text>
+            <Text style={themeStyles.h6}>Recogida</Text>
           </View>
           <View style={styles.iconLabel}>
             <CustomIconButton
               onPress={() => setGroup(!group)}
               icon={<CheckboxIcon size={32} checked={group} />}
             />
-            <Text>Grupo</Text>
+            <Text style={themeStyles.h6}>Grupo</Text>
           </View>
           <View style={styles.iconLabel}>
             <CustomIconButton
               onPress={() => setAirport(!airport)}
               icon={<CheckboxIcon size={32} checked={airport} />}
             />
-            <Text>Aeropuerto</Text>
+            <Text style={themeStyles.h6}>Aeropuerto</Text>
           </View>
           <View style={styles.iconLabel}>
             <CustomIconButton
               onPress={() => setStation(!station)}
               icon={<CheckboxIcon size={32} checked={station} />}
             />
-            <Text>Salida de estacion</Text>
+            <Text style={themeStyles.h6}>Salida de estacion</Text>
           </View>
           <View>
             <View style={styles.iconLabel}>
@@ -143,12 +143,12 @@ export default function CalculatorNav() {
                 }
                 icon={<RemoveIcon size={24} />}
               />
-              <Text style={{ fontSize: 24 }}>{suitcase}</Text>
+              <Text style={[themeStyles.h6, { fontSize: 24 }]}>{suitcase}</Text>
               <CustomIconButton
                 onPress={() => setSuitcase(suitcase + 1)}
                 icon={<AddIcon size={24} />}
               />
-              <Text style={{ textAlign: "center" }}>Maletas</Text>
+              <Text style={themeStyles.h6}>Maletas</Text>
             </View>
           </View>
         </View>
@@ -156,7 +156,7 @@ export default function CalculatorNav() {
 
       <View style={{ flex: 1, justifyContent: "space-between" }}>
         <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={[styles.section, { textAlign: "center", fontSize: 50 }]}>
+          <Text style={[themeStyles.h1, { textAlign: "center" }]}>
             {result}€
           </Text>
         </View>
@@ -164,7 +164,13 @@ export default function CalculatorNav() {
         <CustomButton
           size={"large"}
           text={"Calcular precio"}
-          onPress={() => calculatePrice(showAlert, distance, toll)}
+          onPress={() => {
+            showAlert({
+              title: "Éxito",
+              message: "Cálculo realizado correctamente",
+            });
+            calculatePrice(showAlert, distance, toll);
+          }}
         />
       </View>
     </View>

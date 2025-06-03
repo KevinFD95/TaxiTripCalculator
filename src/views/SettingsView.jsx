@@ -10,15 +10,17 @@ import DarkModeIcon from "../../assets/icons/DarkModeIcon.jsx";
 
 export default function SettingsView() {
   const { theme, mode, toggleTheme } = useTheme();
+
   const themeStyles = globalStyles(theme);
+
   const lightmode = mode === "light";
   const darkmode = mode === "dark";
 
   return (
     <View style={themeStyles.mainContainer}>
       <View style={styles.settingContainer}>
-        <Text>Tema</Text>
-        <View style={{ flexWrap: "wrap", flexDirection: "row" }}>
+        <Text style={themeStyles.h3}>Tema</Text>
+        <View style={{ flexWrap: "wrap", flexDirection: "row", gap: 10 }}>
           <Pressable
             onPress={() => {
               if (!lightmode) toggleTheme("light");
@@ -36,10 +38,10 @@ export default function SettingsView() {
         </View>
       </View>
 
-      <View style={styles.settingContainer}>
-        <Text>Tamaño de letra</Text>
-        <Text>Desplegable</Text>
-      </View>
+      {/* <View style={styles.settingContainer}>
+        <Text style={themeStyles.h3}>Tamaño de letra</Text>
+        <Text style={themeStyles.p}>Desplegable</Text>
+      </View> */}
     </View>
   );
 }

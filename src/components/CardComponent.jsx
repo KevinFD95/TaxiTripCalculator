@@ -1,5 +1,8 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
+
 import { useTheme } from "../context/ThemeContext.jsx";
+
+import { globalStyles } from "../styles/globalStyles.js";
 
 export default function CardComponent({
   title,
@@ -9,6 +12,7 @@ export default function CardComponent({
   onLongPress,
 }) {
   const { theme } = useTheme();
+  const themeStyles = globalStyles(theme);
 
   return (
     <Pressable
@@ -18,12 +22,11 @@ export default function CardComponent({
       delayLongPress={500}
     >
       <View>
-        <Text>{title}</Text>
-        <Text>{date}</Text>
+        <Text style={themeStyles.h4}>{title}</Text>
+        <Text style={themeStyles.p}>{date}</Text>
       </View>
-      <View>
-        <Text>{price}</Text>
-      </View>
+
+      <Text style={themeStyles.h2}>{price}</Text>
     </Pressable>
   );
 }
