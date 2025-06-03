@@ -8,7 +8,7 @@ import { globalStyles } from "../styles/globalStyles.js";
 import LightModeIcon from "../../assets/icons/LightModeIcon.jsx";
 import DarkModeIcon from "../../assets/icons/DarkModeIcon.jsx";
 
-export default function SettingsNav() {
+export default function SettingsView() {
   const { theme, mode, toggleTheme } = useTheme();
   const themeStyles = globalStyles(theme);
   const lightmode = mode === "light";
@@ -37,7 +37,7 @@ export default function SettingsNav() {
       </View>
 
       <View style={styles.settingContainer}>
-        <Text>Tamanyo de letra</Text>
+        <Text>Tamanño de letra</Text>
         <Text>Colocar desplegable</Text>
       </View>
     </View>

@@ -1,14 +1,16 @@
 export default {
-  "app-background": "#f5b041",
-  "selected-icons": "#fef5e7",
-  "unselected-icons": "#fad7a0",
-  "tab-navigator": "#d68910",
-  "color-text": "#fef5e7",
+  "app-background": "#17202a",
+  "selected-icons": "#fdfefe",
+  "unselected-icons": "#85929e",
+  "tab-navigator": "#17202a",
+  "tab-navigator-text": "#fdfefe",
+  "color-text": "#fdfefe",
+  "button-background": "#d6dbdf",
+  "input-border-color": "#fdfefe",
 };
 
-//#000000
-//#d68910
-//#f5b041
-//#f8c471
-//#fad7a0
-//#fef5e7
+/*
+#fdfefe
+#d6dbdf
+#17202a
+*/

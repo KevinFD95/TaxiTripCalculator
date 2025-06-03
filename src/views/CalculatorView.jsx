@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useAlert } from "../context/AlertContext.jsx";
 import { useSettings } from "../context/SettingsContext.jsx";
+import { useHistory } from "../context/HistoryContext.jsx";
 
 import { globalStyles } from "../styles/globalStyles.js";
 
@@ -18,10 +19,13 @@ import RadiobuttonIcon from "../../assets/icons/RadiobuttonIcon.jsx";
 import AddIcon from "../../assets/icons/AddIcon.jsx";
 import RemoveIcon from "../../assets/icons/RemoveIcon.jsx";
 
+import { formatDate } from "../helpers/dateFormatter.js";
+
 export default function CalculatorNav() {
   const { theme } = useTheme();
   const { showAlert } = useAlert();
   const { settings } = useSettings();
+  const { addOp } = useHistory();
 
   const themeStyles = globalStyles(theme);
 
@@ -45,7 +49,7 @@ export default function CalculatorNav() {
         <Text>Introduce la distancia (km):</Text>
         <CustomTextInput
           size={"large"}
-          placeholder={"Selecciona la ruta para obtener la distancia real"}
+          placeholder={"Selecciona la ruta para la distancia real"}
           value={distance}
           onChangeText={(text) => handleDistance(text, setDistance)}
           type="numeric"
@@ -214,6 +218,26 @@ export default function CalculatorNav() {
 
     result = totalPrice.toFixed(2);
     setResult(result);
+
+    addOp({
+      id: new Date().toISOString(),
+      title: "Nuevo cálculo",
+      date: formatDate(new Date().toISOString()),
+      distance: numericDistance,
+      toll: numericToll,
+      tariff: dayTime ? "Diurna" : "Nocturna",
+      flagPrice,
+      priceKm,
+      supplements: {
+        pick,
+        group,
+        airport,
+        station,
+        suitcase: suitcase,
+        suitcasePrice: settings.casePrice,
+      },
+      totalPrice: result,
+    });
   }
 }
 
@@ -247,5 +271,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "space-between",
+    gap: 10,
   },
 });

@@ -30,8 +30,6 @@
         "projectId": "e7d4e3fd-8888-4e52-a9dd-47c41bc936cf"
       }
     },
-    "plugins": [
-      "expo-router"
-    ]
+    "plugins": ["expo-router"]
   }
 }

@@ -1,16 +1,19 @@
 export default {
-  "app-background": "#fef5e7",
-  "selected-icons": "#d68910",
-  "unselected-icons": "#fad7a0",
-  "tab-navigator": "#f5b041",
-  "color-text": "#000000",
-  "button-background": "#f8c471",
-  "input-border-color": "#d68910",
+  "app-background": "#fdfefe",
+  "selected-icons": "#17202a",
+  "unselected-icons": "#d6dbdf",
+  "tab-navigator": "#fdfefe",
+  "tab-navigator-text": "#17202a",
+  "color-text": "#17202a",
+  "button-background": "#d6dbdf",
+  "input-border-color": "#17202a",
 };
 
-//#000000
-//#d68910
-//#f5b041
-//#f8c471
-//#fad7a0
-//#fef5e7
+/*
+#fdfefe
+#d6dbdf
+#85929e
+#34495e
+#283747
+#17202a
+*/

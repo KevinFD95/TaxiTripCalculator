@@ -45,6 +45,7 @@ const styles = (theme) => {
       borderColor: theme["input-border-color"],
       marginVertical: 10,
       paddingVertical: 10,
+      paddingHorizontal: 10,
       fontSize: 16,
       textAlignVertical: "center",
     },
