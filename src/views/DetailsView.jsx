@@ -37,31 +37,60 @@ export default function DetailsView({ navigation, route }) {
     navigation.getParent()?.setOptions({ title: inputValue });
   };
 
+  const suitcaseTotal =
+    item.supplements.suitcase * item.supplements.suitcasePrice;
+
   return (
     <View
       style={[themeStyles.mainContainer, { justifyContent: "space-between" }]}
     >
       <View style={styles.detailsContainer}>
         <View>
-          <Text>Título:</Text>
+          <View style={styles.rowContainer}>
+            <Text>Título:</Text>
+            <Text>Fecha: {item.date}</Text>
+          </View>
           <CustomTextInput
             size={"large"}
             value={inputValue}
             onChangeText={setInputValue}
           />
         </View>
-        <View style={styles.rowContainer}>
-          <Text>Recogida:</Text>
-          {item.supplements.pick ? (
-            <Text>{item.supplements.pickPrice}</Text>
-          ) : (
-            <Text>No</Text>
-          )}
-        </View>
-        <Text>Detalles</Text>
-        <Text>Detalles</Text>
-        <Text>Detalles</Text>
-        <Text>{item.totalPrice}</Text>
+
+        <Text>Tarifa: {item.tariff}</Text>
+        <Text>Precio bajada de bandera: {item.flagPrice}€</Text>
+        <Text>Distancia: {item.distance}km</Text>
+        <Text>Precio del km: {item.priceKm}€/km</Text>
+
+        {item.toll !== 0 && <Text>Peaje: {item.toll}</Text>}
+
+        {item.supplements.pick && (
+          <Text>Recogida: {item.supplements.pickPrice}€</Text>
+        )}
+
+        {item.supplements.group && (
+          <Text>Grupo: {item.supplements.groupPrice}€</Text>
+        )}
+
+        {item.supplements.airport && (
+          <Text>Aeropuerto: {item.supplements.airportPrice}</Text>
+        )}
+
+        {item.supplements.station && (
+          <Text>Salida de estación: {item.supplements.stationPrice}</Text>
+        )}
+
+        {item.supplements.suitcase > 0 && (
+          <View style={styles.rowContainer}>
+            <View>
+              <Text>Maletas: {item.supplements.suitcase}</Text>
+              <Text>Precio por maleta: {item.supplements.suitcasePrice}€</Text>
+            </View>
+            <Text>Total: {suitcaseTotal}</Text>
+          </View>
+        )}
+
+        <Text>Precio total: {item.totalPrice}€</Text>
       </View>
       <CustomButton
         size={"large"}
@@ -79,6 +108,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: "row",
-    gap: 5,
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });

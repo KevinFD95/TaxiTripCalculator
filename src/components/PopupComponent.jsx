@@ -18,6 +18,28 @@ export function Popup({ visible, title, message, onClose }) {
   );
 }
 
+export function ConfirmPopup({ visible, title, message, onConfirm, onCancel }) {
+  const { theme } = useTheme();
+  return (
+    <Modal transparent visible={visible} animationType={"fade"}>
+      <View style={styles(theme).overlay}>
+        <View style={styles(theme).alertBox}>
+          <Text style={styles(theme).title}>{title}</Text>
+          <Text style={styles(theme).message}>{message}</Text>
+          <View>
+            <Pressable style={styles(theme).button} onPress={onConfirm}>
+              <Text style={styles(theme).buttonText}>Sí</Text>
+            </Pressable>
+            <Pressable style={styles(theme).button} onPress={onCancel}>
+              <Text style={styles(theme).buttonText}>No</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
 const styles = (theme) => {
   return StyleSheet.create({
     overlay: {
@@ -69,6 +91,8 @@ const styles = (theme) => {
       backgroundColor: theme["button-background"],
       paddingVertical: 10,
       paddingHorizontal: 20,
+      borderWidth: 1,
+      borderColor: theme["input-border-color"],
       borderRadius: 5,
       marginTop: 30,
     },
@@ -77,6 +101,12 @@ const styles = (theme) => {
       color: theme["color-text"],
       textAlign: "center",
       paddingHorizontal: 15,
+    },
+
+    buttonContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 50,
     },
   });
 };

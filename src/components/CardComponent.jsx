@@ -1,11 +1,22 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import { useTheme } from "../context/ThemeContext.jsx";
 
-export default function CardComponent({ title, date, price, onPress }) {
+export default function CardComponent({
+  title,
+  date,
+  price,
+  onPress,
+  onLongPress,
+}) {
   const { theme } = useTheme();
 
   return (
-    <Pressable style={styles(theme).cardContainer} onPress={onPress}>
+    <Pressable
+      style={styles(theme).cardContainer}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      delayLongPress={500}
+    >
       <View>
         <Text>{title}</Text>
         <Text>{date}</Text>

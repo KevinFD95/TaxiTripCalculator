@@ -14,7 +14,7 @@ export default function HomeNav() {
   const navigation = useNavigation();
 
   const { theme } = useTheme();
-  const { history, cleanHistory } = useHistory();
+  const { history, delOp, cleanHistory } = useHistory();
 
   const themeStyles = globalStyles(theme);
 
@@ -43,6 +43,7 @@ export default function HomeNav() {
                 date={item.date}
                 price={item.totalPrice + "€"}
                 onPress={() => handleCardPress(item)}
+                onLongPress={() => delOp(item.id)}
               />
             )}
             contentContainerStyle={{ gap: 20 }}

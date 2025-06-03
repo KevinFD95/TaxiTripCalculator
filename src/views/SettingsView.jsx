@@ -37,8 +37,8 @@ export default function SettingsView() {
       </View>
 
       <View style={styles.settingContainer}>
-        <Text>Tamanño de letra</Text>
-        <Text>Colocar desplegable</Text>
+        <Text>Tamaño de letra</Text>
+        <Text>Desplegable</Text>
       </View>
     </View>
   );
