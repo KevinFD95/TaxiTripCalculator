@@ -28,6 +28,9 @@ const styles = (theme) => {
     buttonStyles: {
       backgroundColor: theme["button-background"],
       height: 40,
+      marginVertical: 10,
+      borderWidth: 1,
+      borderColor: theme["input-border-color"],
       borderRadius: 5,
       alignItems: "center",
       justifyContent: "center",

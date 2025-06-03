@@ -230,9 +230,13 @@ export default function CalculatorNav() {
       priceKm,
       supplements: {
         pick,
+        pickPrice: settings.pickPrice,
         group,
+        groupPrice: settings.groupPrice,
         airport,
+        airportPrice: settings.airportPrice,
         station,
+        stationPrice: settings.stationPrice,
         suitcase: suitcase,
         suitcasePrice: settings.casePrice,
       },

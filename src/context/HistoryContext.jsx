@@ -11,18 +11,28 @@ export const HistoryProvider = ({ children }) => {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      const data = await AsyncStorage.getItem(HISTORIAL_KEY);
-      if (data) setHistory(JSON.parse(data));
-    })();
+    getOps();
   }, []);
 
+  const getOps = async () => {
+    const data = await AsyncStorage.getItem(HISTORIAL_KEY);
+    if (data) setHistory(JSON.parse(data));
+  };
+
   const addOp = async (operation) => {
-    const opId = {
+    const opWithId = {
       id: Date.now().toString(),
       ...operation,
     };
-    const newHistory = [opId, ...history];
+    const newHistory = [opWithId, ...history];
+    setHistory(newHistory);
+    await AsyncStorage.setItem(HISTORIAL_KEY, JSON.stringify(newHistory));
+  };
+
+  const updateOp = async (updatedItem) => {
+    const newHistory = history.map((op) =>
+      op.id === updatedItem.id ? updatedItem : op,
+    );
     setHistory(newHistory);
     await AsyncStorage.setItem(HISTORIAL_KEY, JSON.stringify(newHistory));
   };
@@ -39,7 +49,9 @@ export const HistoryProvider = ({ children }) => {
   };
 
   return (
-    <HistoryContext.Provider value={{ history, addOp, delOp, cleanHistory }}>
+    <HistoryContext.Provider
+      value={{ history, addOp, updateOp, delOp, cleanHistory }}
+    >
       {children}
     </HistoryContext.Provider>
   );

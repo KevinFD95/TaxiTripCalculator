@@ -7,11 +7,26 @@ import { globalStyles } from "../styles/globalStyles.js";
 
 import Card from "../components/CardComponent.jsx";
 import { CustomButton } from "../components/CustomButtonComponent.jsx";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback } from "react";
 
 export default function HomeNav() {
+  const navigation = useNavigation();
+
   const { theme } = useTheme();
   const { history, cleanHistory } = useHistory();
+
   const themeStyles = globalStyles(theme);
+
+  const handleCardPress = (item) => {
+    navigation.navigate("DetailsView", { item });
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      navigation.getParent()?.setOptions({ title: "Principal" });
+    }, [navigation]),
+  );
 
   return (
     <View style={themeStyles.mainContainer}>
@@ -27,7 +42,7 @@ export default function HomeNav() {
                 title={item.title}
                 date={item.date}
                 price={item.totalPrice + "€"}
-                onPress={() => alert("Hola")}
+                onPress={() => handleCardPress(item)}
               />
             )}
             contentContainerStyle={{ gap: 20 }}
