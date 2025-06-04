@@ -35,6 +35,9 @@ export default function CalculatorNav() {
   const [dayTime, setDayTime] = useState(true);
   const [nightTime, setNightTime] = useState(false);
 
+  const [urban, setUrban] = useState(true);
+  const [interurban, setInterurban] = useState(false);
+
   const [pick, setPick] = useState(false);
   const [group, setGroup] = useState(false);
   const [airport, setAirport] = useState(false);
@@ -69,25 +72,49 @@ export default function CalculatorNav() {
         <Text style={themeStyles.h6}>Tarifa: </Text>
 
         <View style={styles.radiobuttonContainer}>
-          <View style={styles.iconLabel}>
-            <CustomIconButton
-              onPress={() => {
-                setDayTime(true);
-                setNightTime(false);
-              }}
-              icon={<RadiobuttonIcon size={32} checked={dayTime} />}
-            />
-            <Text style={themeStyles.h6}>Diurna</Text>
+          <View style={styles.tariffSection}>
+            <View style={styles.iconLabel}>
+              <CustomIconButton
+                onPress={() => {
+                  setDayTime(true);
+                  setNightTime(false);
+                }}
+                icon={<RadiobuttonIcon size={32} checked={dayTime} />}
+              />
+              <Text style={themeStyles.h6}>Diurna</Text>
+            </View>
+            <View style={styles.iconLabel}>
+              <CustomIconButton
+                onPress={() => {
+                  setUrban(true);
+                  setInterurban(false);
+                }}
+                icon={<RadiobuttonIcon size={32} checked={urban} />}
+              />
+              <Text style={themeStyles.h6}>Urbana</Text>
+            </View>
           </View>
-          <View style={styles.iconLabel}>
-            <CustomIconButton
-              onPress={() => {
-                setNightTime(true);
-                setDayTime(false);
-              }}
-              icon={<RadiobuttonIcon size={32} checked={nightTime} />}
-            />
-            <Text style={themeStyles.h6}>Nocturna</Text>
+          <View style={styles.tariffSection}>
+            <View style={styles.iconLabel}>
+              <CustomIconButton
+                onPress={() => {
+                  setNightTime(true);
+                  setDayTime(false);
+                }}
+                icon={<RadiobuttonIcon size={32} checked={nightTime} />}
+              />
+              <Text style={themeStyles.h6}>Nocturna</Text>
+            </View>
+            <View style={styles.iconLabel}>
+              <CustomIconButton
+                onPress={() => {
+                  setInterurban(true);
+                  setUrban(false);
+                }}
+                icon={<RadiobuttonIcon size={32} checked={interurban} />}
+              />
+              <Text style={themeStyles.h6}>Interurbana</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -95,7 +122,14 @@ export default function CalculatorNav() {
       <View style={styles.valuesSection}>
         <Text style={[styles.section, themeStyles.p]}>
           Bajada de bandera:{" "}
-          {dayTime ? settings.dayTimePrice : settings.nightTimePrice}€
+          {dayTime
+            ? urban
+              ? settings.dayTimePrice
+              : settings.dayTimeIntPrice
+            : urban
+              ? settings.nightTimePrice
+              : settings.nightTimeIntPrice}
+          €
         </Text>
         <Text style={[styles.section, themeStyles.p]}>
           Precio del km: {dayTime ? settings.dayKmPrice : settings.nightKmPrice}
@@ -196,7 +230,9 @@ export default function CalculatorNav() {
     let totalPrice = 0;
     let result = 0;
 
-    const numericDistance = parseFloat(distance) || 0;
+    const numericDistance = urban
+      ? parseFloat(distance) || 0
+      : parseFloat(distance) - 3 || 0;
     const numericToll = parseFloat(toll) || 0;
 
     if (isNaN(numericDistance) || numericDistance === 0) {
@@ -206,8 +242,15 @@ export default function CalculatorNav() {
     }
 
     const flagPrice = parseFloat(
-      dayTime ? settings.dayTimePrice : settings.nightTimePrice,
+      dayTime
+        ? urban
+          ? settings.dayTimePrice
+          : settings.dayTimeIntPrice
+        : urban
+          ? settings.nightTimePrice
+          : settings.nightTimeIntPrice,
     );
+
     const priceKm = parseFloat(
       dayTime ? settings.dayKmPrice : settings.nightKmPrice,
     );
@@ -229,9 +272,10 @@ export default function CalculatorNav() {
       id: new Date().toISOString(),
       title: "Nuevo cálculo",
       date: formatDate(new Date().toISOString()),
-      distance: numericDistance,
+      distance: interurban ? numericDistance + 3 : numericDistance,
       toll: numericToll,
-      tariff: dayTime ? "Diurna" : "Nocturna",
+      time: dayTime ? "Diurno" : "Nocturno",
+      tariff: urban ? "Urbana" : "Interurbana",
       flagPrice,
       priceKm,
       supplements: {
@@ -271,10 +315,15 @@ const styles = StyleSheet.create({
     gap: 5,
   },
 
+  tariffSection: {
+    gap: 5,
+  },
+
   radiobuttonContainer: {
     flexWrap: "wrap",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    gap: 70,
   },
 
   checkboxContainer: {

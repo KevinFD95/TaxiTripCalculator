@@ -6,7 +6,7 @@ import { useTheme } from "../context/ThemeContext.jsx";
 import HomeNav from "./Home.jsx";
 import CalculatorNav from "./Calculator.jsx";
 import PricesNav from "./Prices.jsx";
-import SettingsNav from "../views/SettingsView.jsx";
+import SettingsNav from "./Settings.jsx";
 
 import HomeIcon from "../../assets/icons/HomeIcon.jsx";
 import CalcIcon from "../../assets/icons/CalcIcon.jsx";
@@ -46,7 +46,7 @@ export default function TabNavigator() {
         name="home"
         component={HomeNav}
         options={{
-          title: "Principal",
+          title: "Inicio",
           tabBarIcon: ({ focused }) => (
             <HomeIcon size={iconSize} filled={focused} />
           ),
@@ -76,7 +76,7 @@ export default function TabNavigator() {
         name="settings"
         component={SettingsNav}
         options={{
-          title: "Configuracion",
+          title: "Configuración",
           tabBarIcon: ({ focused }) => (
             <SettingsIcon size={iconSize} filled={focused} />
           ),

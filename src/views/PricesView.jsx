@@ -16,8 +16,11 @@ export default function PricesView() {
   const themeStyles = globalStyles(theme);
 
   const [dayTimePrice, setDayTimePrice] = useState(0.0);
+  const [dayTimeIntPrice, setDayTimeIntPrice] = useState(0.0);
   const [dayKmPrice, setDayKmPrice] = useState(0.0);
+
   const [nightTimePrice, setNightTimePrice] = useState(0.0);
+  const [nightTimeIntPrice, setNightTimeIntPrice] = useState(0.0);
   const [nightKmPrice, setNightKmPrice] = useState(0.0);
 
   const [pickPrice, setPickPrice] = useState(0.0);
@@ -30,8 +33,10 @@ export default function PricesView() {
     loadSettings(
       settings,
       setDayTimePrice,
+      setDayTimeIntPrice,
       setDayKmPrice,
       setNightTimePrice,
+      setNightTimeIntPrice,
       setNightKmPrice,
       setPickPrice,
       setGroupPrice,
@@ -48,10 +53,11 @@ export default function PricesView() {
           <Text style={[themeStyles.h2, { textAlign: "center" }]}>Tarifas</Text>
 
           <View>
-            <Text style={themeStyles.h5}>Diurna:</Text>
+            <Text style={[themeStyles.h4, { marginBottom: 10 }]}>Diurna:</Text>
+            <Text style={themeStyles.h5}>Bajada de bandera (€)</Text>
             <View style={styles.rowSection}>
               <View style={{ flex: 1 }}>
-                <Text style={themeStyles.h6}>Bajada de bandera (€)</Text>
+                <Text style={themeStyles.h6}>Urbana</Text>
                 <CustomTextInput
                   size={"large"}
                   placeholder={"€"}
@@ -61,22 +67,37 @@ export default function PricesView() {
                 />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={themeStyles.h6}>Precio del km (€/km)</Text>
+                <Text style={themeStyles.h6}>Interurbana</Text>
                 <CustomTextInput
                   size={"large"}
-                  placeholder={"€/km"}
-                  value={dayKmPrice}
-                  onChangeText={(text) => setDayKmPrice(handleNumber(text))}
+                  placeholder={"€"}
+                  value={dayTimeIntPrice}
+                  onChangeText={(text) =>
+                    setDayTimeIntPrice(handleNumber(text))
+                  }
                   type="numeric"
                 />
               </View>
             </View>
+            <View style={{ flex: 1 }}>
+              <Text style={themeStyles.h6}>Precio del km (€/km)</Text>
+              <CustomTextInput
+                size={"large"}
+                placeholder={"€/km"}
+                value={dayKmPrice}
+                onChangeText={(text) => setDayKmPrice(handleNumber(text))}
+                type="numeric"
+              />
+            </View>
           </View>
           <View>
-            <Text style={themeStyles.h5}>Nocturna:</Text>
+            <Text style={[themeStyles.h4, { marginBottom: 10 }]}>
+              Nocturna:
+            </Text>
+            <Text style={themeStyles.h5}>Bajada de bandera (€)</Text>
             <View style={styles.rowSection}>
               <View style={{ flex: 1 }}>
-                <Text style={themeStyles.h6}>Bajada de bandera (€)</Text>
+                <Text style={themeStyles.h6}>Urbana</Text>
                 <CustomTextInput
                   size={"large"}
                   placeholder={"€"}
@@ -86,15 +107,27 @@ export default function PricesView() {
                 />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={themeStyles.h6}>Precio del km (€/km)</Text>
+                <Text style={themeStyles.h6}>Interurbana</Text>
                 <CustomTextInput
                   size={"large"}
-                  placeholder={"€/km"}
-                  value={nightKmPrice}
-                  onChangeText={(text) => setNightKmPrice(handleNumber(text))}
+                  placeholder={"€"}
+                  value={nightTimeIntPrice}
+                  onChangeText={(text) =>
+                    setNightTimeIntPrice(handleNumber(text))
+                  }
                   type="numeric"
                 />
               </View>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={themeStyles.h6}>Precio del km (€/km)</Text>
+              <CustomTextInput
+                size={"large"}
+                placeholder={"€/km"}
+                value={nightKmPrice}
+                onChangeText={(text) => setNightKmPrice(handleNumber(text))}
+                type="numeric"
+              />
             </View>
           </View>
         </View>
@@ -162,8 +195,10 @@ export default function PricesView() {
           saveSettings(
             setSettings,
             dayTimePrice,
+            dayTimeIntPrice,
             dayKmPrice,
             nightTimePrice,
+            nightTimeIntPrice,
             nightKmPrice,
             pickPrice,
             groupPrice,
@@ -181,8 +216,10 @@ export default function PricesView() {
 function loadSettings(
   settings,
   setDayTimePrice,
+  setDayTimeIntPrice,
   setDayKmPrice,
   setNightTimePrice,
+  setNightTimeIntPrice,
   setNightKmPrice,
   setPickPrice,
   setGroupPrice,
@@ -191,8 +228,10 @@ function loadSettings(
   setCasePrice,
 ) {
   setDayTimePrice(settings.dayTimePrice?.toString() || "0.00");
+  setDayTimeIntPrice(settings.dayTimeIntPrice?.toString() || "0.00");
   setDayKmPrice(settings.dayKmPrice?.toString() || "0.00");
   setNightTimePrice(settings.nightTimePrice?.toString() || "0.00");
+  setNightTimeIntPrice(settings.nightTimeIntPrice?.toString() || "0.00");
   setNightKmPrice(settings.nightKmPrice?.toString() || "0.00");
   setPickPrice(settings.pickPrice?.toString() || "0.00");
   setGroupPrice(settings.groupPrice?.toString() || "0.00");
@@ -204,8 +243,10 @@ function loadSettings(
 function saveSettings(
   setSettings,
   dayTimePrice,
+  dayTimeIntPrice,
   dayKmPrice,
   nightTimePrice,
+  nightTimeIntPrice,
   nightKmPrice,
   pickPrice,
   groupPrice,
@@ -215,8 +256,10 @@ function saveSettings(
 ) {
   setSettings({
     dayTimePrice,
+    dayTimeIntPrice,
     dayKmPrice,
     nightTimePrice,
+    nightTimeIntPrice,
     nightKmPrice,
     pickPrice,
     groupPrice,

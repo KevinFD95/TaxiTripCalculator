@@ -1,4 +1,6 @@
+import { useCallback } from "react";
 import { View, Text, FlatList } from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useAlert } from "../context/AlertContext.jsx";
@@ -8,10 +10,8 @@ import { globalStyles } from "../styles/globalStyles.js";
 
 import Card from "../components/CardComponent.jsx";
 import { CustomButton } from "../components/CustomButtonComponent.jsx";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback } from "react";
 
-export default function HomeNav() {
+export default function HomeView() {
   const navigation = useNavigation();
 
   const { theme } = useTheme();
@@ -26,7 +26,7 @@ export default function HomeNav() {
 
   useFocusEffect(
     useCallback(() => {
-      navigation.getParent()?.setOptions({ title: "Principal" });
+      navigation.getParent()?.setOptions({ title: "Inicio" });
     }, [navigation]),
   );
 

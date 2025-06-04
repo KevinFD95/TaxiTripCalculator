@@ -8,8 +8,10 @@ export const useSettings = () => useContext(SettingsContext);
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
     dayTimePrice: "",
+    dayTimeIntPrice: "",
     dayKmPrice: "",
     nightTimePrice: "",
+    nightTimeIntPrice: "",
     nightKmPrice: "",
     pickPrice: "",
     groupPrice: "",
@@ -29,7 +31,6 @@ export const SettingsProvider = ({ children }) => {
         console.error("Error al cargar configuracion de usuario");
       }
     };
-
     loadSettings();
   }, []);
 

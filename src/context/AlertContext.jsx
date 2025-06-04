@@ -35,12 +35,13 @@ export const AlertProvider = ({ children }) => {
     });
   };
 
-  const showConfirm = ({ title, message, onConfirm }) => {
+  const showConfirm = ({ title, message, onConfirm, onCancel }) => {
     setConfirmState({
       visible: true,
       title,
       message,
       onConfirm,
+      onCancel,
     });
   };
 
@@ -49,6 +50,8 @@ export const AlertProvider = ({ children }) => {
       visible: false,
       title: undefined,
       message: undefined,
+      onConfirm: undefined,
+      onCancel: undefined,
     });
   };
 
@@ -69,7 +72,10 @@ export const AlertProvider = ({ children }) => {
           confirmState.onConfirm?.();
           hideConfirm();
         }}
-        onCancel={hideConfirm}
+        onCancel={() => {
+          confirmState.onCancel?.();
+          hideConfirm();
+        }}
       />
     </AlertContext.Provider>
   );

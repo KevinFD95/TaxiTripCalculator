@@ -1,35 +1,47 @@
 {
   "expo": {
-    "name": "Taxi Price Calculator",
-    "slug": "taxi-trip-calculator",
+    "name": "TaxiCalc",
+    "slug": "taxi-calc",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/taxi-app-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/taxi-app-splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#dac66b"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/taxi-app-icon.png",
+        "backgroundColor": "#dac66b"
       },
-      "package": "com.kevinfd95.TaxiTripCalculator"
+      "package": "com.koleradev.taxicalc"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/taxi-app-icon.png"
     },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
+      ]
+    ],
     "extra": {
+      "router": {
+        "origin": false
+      },
       "eas": {
-        "projectId": "e7d4e3fd-8888-4e52-a9dd-47c41bc936cf"
+        "projectId": "4c8884ea-8340-4569-b67e-e5bac66f9bc5"
       }
-    },
-    "plugins": ["expo-router"]
+    }
   }
 }

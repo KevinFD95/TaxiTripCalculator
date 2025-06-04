@@ -7,8 +7,12 @@ import { globalStyles } from "../styles/globalStyles.js";
 
 import LightModeIcon from "../../assets/icons/LightModeIcon.jsx";
 import DarkModeIcon from "../../assets/icons/DarkModeIcon.jsx";
+import { CustomButton } from "../components/CustomButtonComponent.jsx";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback } from "react";
 
 export default function SettingsView() {
+  const navigation = useNavigation();
   const { theme, mode, toggleTheme } = useTheme();
 
   const themeStyles = globalStyles(theme);
@@ -16,8 +20,16 @@ export default function SettingsView() {
   const lightmode = mode === "light";
   const darkmode = mode === "dark";
 
+  useFocusEffect(
+    useCallback(() => {
+      navigation.getParent()?.setOptions({ title: "Configuración" });
+    }, [navigation]),
+  );
+
   return (
-    <View style={themeStyles.mainContainer}>
+    <View
+      style={[themeStyles.mainContainer, { justifyContent: "space-between" }]}
+    >
       <View style={styles.settingContainer}>
         <Text style={themeStyles.h3}>Tema</Text>
         <View style={{ flexWrap: "wrap", flexDirection: "row", gap: 10 }}>
@@ -42,8 +54,18 @@ export default function SettingsView() {
         <Text style={themeStyles.h3}>Tamaño de letra</Text>
         <Text style={themeStyles.p}>Desplegable</Text>
       </View> */}
+
+      <CustomButton
+        size={"large"}
+        text="Ver el tutorial"
+        onPress={() => handleNavigation(navigation)}
+      />
     </View>
   );
+}
+
+function handleNavigation(navigation) {
+  navigation.navigate("TutorialView");
 }
 
 const styles = StyleSheet.create({
