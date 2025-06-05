@@ -142,12 +142,12 @@ export default function DetailsView({ navigation, route }) {
               </View>
             )}
           </View>
-
-          <View style={[styles.rowContainer, styles.totalPriceContainer]}>
-            <Text style={themeStyles.h6}>Precio total:</Text>
-            <Text style={themeStyles.h1}>{item.totalPrice}€</Text>
-          </View>
         </ScrollView>
+
+        <View style={[styles.rowContainer, styles.totalPriceContainer]}>
+          <Text style={themeStyles.h6}>Precio total:</Text>
+          <Text style={themeStyles.h1}>{item.totalPrice}€</Text>
+        </View>
       </View>
       <CustomButton
         size={"large"}

@@ -165,6 +165,8 @@ export default function CalculatorNav() {
               />
               <Text style={themeStyles.h6}>Aeropuerto</Text>
             </View>
+          </View>
+          <View style={styles(theme).checkboxContainer}>
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
                 onPress={() => setStation(!station)}
@@ -172,23 +174,19 @@ export default function CalculatorNav() {
               />
               <Text style={themeStyles.h6}>Salida de estacion</Text>
             </View>
-            <View>
-              <View style={styles(theme).iconLabel}>
-                <CustomIconButton
-                  onPress={() =>
-                    setSuitcase(suitcase > 0 ? suitcase - 1 : suitcase)
-                  }
-                  icon={<RemoveIcon size={24} />}
-                />
-                <Text style={[themeStyles.h6, { fontSize: 24 }]}>
-                  {suitcase}
-                </Text>
-                <CustomIconButton
-                  onPress={() => setSuitcase(suitcase + 1)}
-                  icon={<AddIcon size={24} />}
-                />
-                <Text style={themeStyles.h6}>Maletas</Text>
-              </View>
+            <View style={styles(theme).iconLabel}>
+              <CustomIconButton
+                onPress={() =>
+                  setSuitcase(suitcase > 0 ? suitcase - 1 : suitcase)
+                }
+                icon={<RemoveIcon size={24} />}
+              />
+              <Text style={[themeStyles.h6, { fontSize: 24 }]}>{suitcase}</Text>
+              <CustomIconButton
+                onPress={() => setSuitcase(suitcase + 1)}
+                icon={<AddIcon size={24} />}
+              />
+              <Text style={themeStyles.h6}>Maletas</Text>
             </View>
           </View>
         </View>
@@ -272,6 +270,11 @@ export default function CalculatorNav() {
     );
 
     result = totalPrice.toFixed(2);
+
+    if (isNaN(result)) {
+      result = "0.00";
+    }
+
     setResult(result);
 
     addOp({
@@ -305,7 +308,7 @@ const styles = (theme) => {
   return StyleSheet.create({
     section: {
       marginBottom: 20,
-      gap: 5,
+      gap: 10,
     },
 
     valuesSection: {
@@ -324,13 +327,13 @@ const styles = (theme) => {
 
     tariffSection: {
       gap: 5,
+      width: "50%",
     },
 
     radiobuttonContainer: {
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
-      gap: 70,
     },
 
     checkboxContainer: {
