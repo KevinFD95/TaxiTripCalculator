@@ -17,8 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/taxi-app-icon.png",
-        "backgroundColor": "#dac66b"
+        "foregroundImage": "./assets/taxi-app-icon.png"
       },
       "package": "com.koleradev.taxicalc"
     },
