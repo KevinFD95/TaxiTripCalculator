@@ -70,7 +70,7 @@ export default function CalculatorNav() {
         </View>
 
         <View style={styles(theme).section}>
-          <Text style={themeStyles.h6}>Tarifa: </Text>
+          <Text style={[themeStyles.h4, { marginBottom: 10 }]}>Tarifa: </Text>
 
           <View style={styles(theme).radiobuttonContainer}>
             <View style={styles(theme).tariffSection}>
@@ -139,7 +139,9 @@ export default function CalculatorNav() {
         </View>
 
         <View style={styles(theme).section}>
-          <Text style={themeStyles.h4}>Suplementos:</Text>
+          <Text style={[themeStyles.h4, { marginBottom: 10 }]}>
+            Suplementos:
+          </Text>
 
           <View style={styles(theme).checkboxContainer}>
             <View style={styles(theme).iconLabel}>

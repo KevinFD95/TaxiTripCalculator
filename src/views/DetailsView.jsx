@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
@@ -59,89 +59,95 @@ export default function DetailsView({ navigation, route }) {
             onChangeText={setInputValue}
           />
         </View>
-        <Text style={[themeStyles.h4, styles.titleStyle]}>Tarifa</Text>
-        <View style={styles.rowContainer}>
-          <Text style={themeStyles.h6}>Horario:</Text>
-          <Text style={themeStyles.h6}>{item.time}</Text>
-        </View>
-        <View style={styles.rowContainer}>
-          <Text style={themeStyles.h6}>Tarifa:</Text>
-          <Text style={themeStyles.h6}>{item.tariff}</Text>
-        </View>
-        <View style={styles.rowContainer}>
-          <Text style={themeStyles.h6}>Precio bajada de bandera:</Text>
-          <Text style={themeStyles.h6}>{item.flagPrice}€</Text>
-        </View>
-        <View style={styles.rowContainer}>
-          <Text style={themeStyles.h6}>Distancia:</Text>
-          <Text style={themeStyles.h6}>{item.distance}km</Text>
-        </View>
-        <View style={styles.rowContainer}>
-          <Text style={themeStyles.h6}>Precio del km:</Text>
-          <Text style={themeStyles.h6}>{item.priceKm}€/km</Text>
-        </View>
+        <ScrollView>
+          <Text style={[themeStyles.h4, styles.titleStyle]}>Tarifa</Text>
+          <View style={styles.rowContainer}>
+            <Text style={themeStyles.h6}>Horario:</Text>
+            <Text style={themeStyles.h6}>{item.time}</Text>
+          </View>
+          <View style={styles.rowContainer}>
+            <Text style={themeStyles.h6}>Tarifa:</Text>
+            <Text style={themeStyles.h6}>{item.tariff}</Text>
+          </View>
+          <View style={styles.rowContainer}>
+            <Text style={themeStyles.h6}>Precio bajada de bandera:</Text>
+            <Text style={themeStyles.h6}>{item.flagPrice}€</Text>
+          </View>
+          <View style={styles.rowContainer}>
+            <Text style={themeStyles.h6}>Distancia:</Text>
+            <Text style={themeStyles.h6}>{item.distance}km</Text>
+          </View>
+          <View style={styles.rowContainer}>
+            <Text style={themeStyles.h6}>Precio del km:</Text>
+            <Text style={themeStyles.h6}>{item.priceKm}€/km</Text>
+          </View>
 
-        <View style={styles.suppliesContainer}>
-          <Text style={[themeStyles.h4, styles.titleStyle]}>Suplementos</Text>
+          <View style={styles.suppliesContainer}>
+            <Text style={[themeStyles.h4, styles.titleStyle]}>Suplementos</Text>
 
-          {item.toll !== 0 && (
-            <View style={styles.rowContainer}>
-              <Text style={themeStyles.h6}>Peaje:</Text>
-              <Text style={themeStyles.h6}>{item.toll}€</Text>
-            </View>
-          )}
+            {item.toll !== 0 && (
+              <View style={styles.rowContainer}>
+                <Text style={themeStyles.h6}>Peaje:</Text>
+                <Text style={themeStyles.h6}>{item.toll}€</Text>
+              </View>
+            )}
 
-          {item.supplements.pick && (
-            <View style={styles.rowContainer}>
-              <Text style={themeStyles.h6}>Recogida:</Text>
-              <Text style={themeStyles.h6}>{item.supplements.pickPrice}€</Text>
-            </View>
-          )}
-
-          {item.supplements.group && (
-            <View style={styles.rowContainer}>
-              <Text style={themeStyles.h6}>Grupo:</Text>
-              <Text style={themeStyles.h6}>{item.supplements.groupPrice}€</Text>
-            </View>
-          )}
-
-          {item.supplements.airport && (
-            <View style={styles.rowContainer}>
-              <Text style={themeStyles.h6}>Aeropuerto:</Text>
-              <Text style={themeStyles.h6}>
-                {item.supplements.airportPrice}€
-              </Text>
-            </View>
-          )}
-
-          {item.supplements.station && (
-            <View style={styles.rowContainer}>
-              <Text style={themeStyles.h6}>Salida de estación:</Text>
-              <Text style={themeStyles.h6}>
-                {item.supplements.stationPrice}€
-              </Text>
-            </View>
-          )}
-
-          {item.supplements.suitcase > 0 && (
-            <View style={styles.rowContainer}>
-              <View>
+            {item.supplements.pick && (
+              <View style={styles.rowContainer}>
+                <Text style={themeStyles.h6}>Recogida:</Text>
                 <Text style={themeStyles.h6}>
-                  Maletas: {item.supplements.suitcase}u
-                </Text>
-                <Text style={themeStyles.h6}>
-                  Precio por maleta: {item.supplements.suitcasePrice}€/u
+                  {item.supplements.pickPrice}€
                 </Text>
               </View>
-              <Text style={themeStyles.h6}>{suitcaseTotal}€</Text>
-            </View>
-          )}
-        </View>
+            )}
 
-        <View style={[styles.rowContainer, styles.totalPriceContainer]}>
-          <Text style={themeStyles.h6}>Precio total:</Text>
-          <Text style={themeStyles.h1}>{item.totalPrice}€</Text>
-        </View>
+            {item.supplements.group && (
+              <View style={styles.rowContainer}>
+                <Text style={themeStyles.h6}>Grupo:</Text>
+                <Text style={themeStyles.h6}>
+                  {item.supplements.groupPrice}€
+                </Text>
+              </View>
+            )}
+
+            {item.supplements.airport && (
+              <View style={styles.rowContainer}>
+                <Text style={themeStyles.h6}>Aeropuerto:</Text>
+                <Text style={themeStyles.h6}>
+                  {item.supplements.airportPrice}€
+                </Text>
+              </View>
+            )}
+
+            {item.supplements.station && (
+              <View style={styles.rowContainer}>
+                <Text style={themeStyles.h6}>Salida de estación:</Text>
+                <Text style={themeStyles.h6}>
+                  {item.supplements.stationPrice}€
+                </Text>
+              </View>
+            )}
+
+            {item.supplements.suitcase > 0 && (
+              <View style={styles.rowContainer}>
+                <View>
+                  <Text style={themeStyles.h6}>
+                    Maletas: {item.supplements.suitcase}u
+                  </Text>
+                  <Text style={themeStyles.h6}>
+                    Precio por maleta: {item.supplements.suitcasePrice}€/u
+                  </Text>
+                </View>
+                <Text style={themeStyles.h6}>{suitcaseTotal}€</Text>
+              </View>
+            )}
+          </View>
+
+          <View style={[styles.rowContainer, styles.totalPriceContainer]}>
+            <Text style={themeStyles.h6}>Precio total:</Text>
+            <Text style={themeStyles.h1}>{item.totalPrice}€</Text>
+          </View>
+        </ScrollView>
       </View>
       <CustomButton
         size={"large"}
