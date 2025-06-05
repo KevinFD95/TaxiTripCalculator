@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useAlert } from "../context/AlertContext.jsx";
@@ -48,147 +48,151 @@ export default function CalculatorNav() {
 
   return (
     <View style={themeStyles.mainContainer}>
-      <View style={styles.section}>
-        <Text style={themeStyles.h6}>Introduce la distancia (km):</Text>
-        <CustomTextInput
-          size={"large"}
-          placeholder={"Selecciona la ruta para la distancia real"}
-          value={distance}
-          onChangeText={(text) => handleDistance(text, setDistance)}
-          type="numeric"
-        />
+      <ScrollView contentContainerStyle={{ paddingBottom: 150 }}>
+        <View style={styles(theme).section}>
+          <Text style={themeStyles.h6}>Introduce la distancia (km):</Text>
+          <CustomTextInput
+            size={"large"}
+            placeholder={"Selecciona la ruta para la distancia real"}
+            value={distance}
+            onChangeText={(text) => handleDistance(text, setDistance)}
+            type="numeric"
+          />
 
-        <Text style={themeStyles.h6}>Introduce el precio del peaje:</Text>
-        <CustomTextInput
-          size={"large"}
-          placeholder={"Precio en euros"}
-          value={toll}
-          onChangeText={(text) => handleToll(text, setToll)}
-          type="numeric"
-        />
-      </View>
+          <Text style={themeStyles.h6}>Introduce el precio del peaje:</Text>
+          <CustomTextInput
+            size={"large"}
+            placeholder={"Precio en euros"}
+            value={toll}
+            onChangeText={(text) => handleToll(text, setToll)}
+            type="numeric"
+          />
+        </View>
 
-      <View style={styles.section}>
-        <Text style={themeStyles.h6}>Tarifa: </Text>
+        <View style={styles(theme).section}>
+          <Text style={themeStyles.h6}>Tarifa: </Text>
 
-        <View style={styles.radiobuttonContainer}>
-          <View style={styles.tariffSection}>
-            <View style={styles.iconLabel}>
-              <CustomIconButton
-                onPress={() => {
-                  setDayTime(true);
-                  setNightTime(false);
-                }}
-                icon={<RadiobuttonIcon size={32} checked={dayTime} />}
-              />
-              <Text style={themeStyles.h6}>Diurna</Text>
+          <View style={styles(theme).radiobuttonContainer}>
+            <View style={styles(theme).tariffSection}>
+              <View style={styles(theme).iconLabel}>
+                <CustomIconButton
+                  onPress={() => {
+                    setDayTime(true);
+                    setNightTime(false);
+                  }}
+                  icon={<RadiobuttonIcon size={32} checked={dayTime} />}
+                />
+                <Text style={themeStyles.h6}>Diurna</Text>
+              </View>
+              <View style={styles(theme).iconLabel}>
+                <CustomIconButton
+                  onPress={() => {
+                    setUrban(true);
+                    setInterurban(false);
+                  }}
+                  icon={<RadiobuttonIcon size={32} checked={urban} />}
+                />
+                <Text style={themeStyles.h6}>Urbana</Text>
+              </View>
             </View>
-            <View style={styles.iconLabel}>
-              <CustomIconButton
-                onPress={() => {
-                  setUrban(true);
-                  setInterurban(false);
-                }}
-                icon={<RadiobuttonIcon size={32} checked={urban} />}
-              />
-              <Text style={themeStyles.h6}>Urbana</Text>
-            </View>
-          </View>
-          <View style={styles.tariffSection}>
-            <View style={styles.iconLabel}>
-              <CustomIconButton
-                onPress={() => {
-                  setNightTime(true);
-                  setDayTime(false);
-                }}
-                icon={<RadiobuttonIcon size={32} checked={nightTime} />}
-              />
-              <Text style={themeStyles.h6}>Nocturna</Text>
-            </View>
-            <View style={styles.iconLabel}>
-              <CustomIconButton
-                onPress={() => {
-                  setInterurban(true);
-                  setUrban(false);
-                }}
-                icon={<RadiobuttonIcon size={32} checked={interurban} />}
-              />
-              <Text style={themeStyles.h6}>Interurbana</Text>
+            <View style={styles(theme).tariffSection}>
+              <View style={styles(theme).iconLabel}>
+                <CustomIconButton
+                  onPress={() => {
+                    setNightTime(true);
+                    setDayTime(false);
+                  }}
+                  icon={<RadiobuttonIcon size={32} checked={nightTime} />}
+                />
+                <Text style={themeStyles.h6}>Nocturna</Text>
+              </View>
+              <View style={styles(theme).iconLabel}>
+                <CustomIconButton
+                  onPress={() => {
+                    setInterurban(true);
+                    setUrban(false);
+                  }}
+                  icon={<RadiobuttonIcon size={32} checked={interurban} />}
+                />
+                <Text style={themeStyles.h6}>Interurbana</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <View style={styles.valuesSection}>
-        <Text style={[styles.section, themeStyles.p]}>
-          Bajada de bandera:{" "}
-          {dayTime
-            ? urban
-              ? settings.dayTimePrice
-              : settings.dayTimeIntPrice
-            : urban
-              ? settings.nightTimePrice
-              : settings.nightTimeIntPrice}
-          €
-        </Text>
-        <Text style={[styles.section, themeStyles.p]}>
-          Precio del km: {dayTime ? settings.dayKmPrice : settings.nightKmPrice}
-          €
-        </Text>
-      </View>
+        <View style={styles(theme).valuesSection}>
+          <Text style={[styles(theme).section, themeStyles.p]}>
+            Bajada de bandera:{" "}
+            {dayTime
+              ? urban
+                ? settings.dayTimePrice
+                : settings.dayTimeIntPrice
+              : urban
+                ? settings.nightTimePrice
+                : settings.nightTimeIntPrice}
+            €
+          </Text>
+          <Text style={[styles(theme).section, themeStyles.p]}>
+            Precio del km:{" "}
+            {dayTime ? settings.dayKmPrice : settings.nightKmPrice}€
+          </Text>
+        </View>
 
-      <View style={styles.section}>
-        <Text style={themeStyles.h4}>Suplementos:</Text>
+        <View style={styles(theme).section}>
+          <Text style={themeStyles.h4}>Suplementos:</Text>
 
-        <View style={styles.checkboxContainer}>
-          <View style={styles.iconLabel}>
-            <CustomIconButton
-              onPress={() => setPick(!pick)}
-              icon={<CheckboxIcon size={32} checked={pick} />}
-            />
-            <Text style={themeStyles.h6}>Recogida</Text>
-          </View>
-          <View style={styles.iconLabel}>
-            <CustomIconButton
-              onPress={() => setGroup(!group)}
-              icon={<CheckboxIcon size={32} checked={group} />}
-            />
-            <Text style={themeStyles.h6}>Grupo</Text>
-          </View>
-          <View style={styles.iconLabel}>
-            <CustomIconButton
-              onPress={() => setAirport(!airport)}
-              icon={<CheckboxIcon size={32} checked={airport} />}
-            />
-            <Text style={themeStyles.h6}>Aeropuerto</Text>
-          </View>
-          <View style={styles.iconLabel}>
-            <CustomIconButton
-              onPress={() => setStation(!station)}
-              icon={<CheckboxIcon size={32} checked={station} />}
-            />
-            <Text style={themeStyles.h6}>Salida de estacion</Text>
-          </View>
-          <View>
-            <View style={styles.iconLabel}>
+          <View style={styles(theme).checkboxContainer}>
+            <View style={styles(theme).iconLabel}>
               <CustomIconButton
-                onPress={() =>
-                  setSuitcase(suitcase > 0 ? suitcase - 1 : suitcase)
-                }
-                icon={<RemoveIcon size={24} />}
+                onPress={() => setPick(!pick)}
+                icon={<CheckboxIcon size={32} checked={pick} />}
               />
-              <Text style={[themeStyles.h6, { fontSize: 24 }]}>{suitcase}</Text>
+              <Text style={themeStyles.h6}>Recogida</Text>
+            </View>
+            <View style={styles(theme).iconLabel}>
               <CustomIconButton
-                onPress={() => setSuitcase(suitcase + 1)}
-                icon={<AddIcon size={24} />}
+                onPress={() => setGroup(!group)}
+                icon={<CheckboxIcon size={32} checked={group} />}
               />
-              <Text style={themeStyles.h6}>Maletas</Text>
+              <Text style={themeStyles.h6}>Grupo</Text>
+            </View>
+            <View style={styles(theme).iconLabel}>
+              <CustomIconButton
+                onPress={() => setAirport(!airport)}
+                icon={<CheckboxIcon size={32} checked={airport} />}
+              />
+              <Text style={themeStyles.h6}>Aeropuerto</Text>
+            </View>
+            <View style={styles(theme).iconLabel}>
+              <CustomIconButton
+                onPress={() => setStation(!station)}
+                icon={<CheckboxIcon size={32} checked={station} />}
+              />
+              <Text style={themeStyles.h6}>Salida de estacion</Text>
+            </View>
+            <View>
+              <View style={styles(theme).iconLabel}>
+                <CustomIconButton
+                  onPress={() =>
+                    setSuitcase(suitcase > 0 ? suitcase - 1 : suitcase)
+                  }
+                  icon={<RemoveIcon size={24} />}
+                />
+                <Text style={[themeStyles.h6, { fontSize: 24 }]}>
+                  {suitcase}
+                </Text>
+                <CustomIconButton
+                  onPress={() => setSuitcase(suitcase + 1)}
+                  icon={<AddIcon size={24} />}
+                />
+                <Text style={themeStyles.h6}>Maletas</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
 
-      <View style={{ flex: 1, justifyContent: "space-between" }}>
+      <View style={styles(theme).footer}>
         <View style={{ flex: 1, justifyContent: "center" }}>
           <Text style={[themeStyles.h1, { textAlign: "center" }]}>
             {result}€
@@ -295,41 +299,54 @@ export default function CalculatorNav() {
   }
 }
 
-const styles = StyleSheet.create({
-  section: {
-    marginBottom: 20,
-    gap: 5,
-  },
+const styles = (theme) => {
+  return StyleSheet.create({
+    section: {
+      marginBottom: 20,
+      gap: 5,
+    },
 
-  valuesSection: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    gap: 40,
-    justifyContent: "center",
-  },
+    valuesSection: {
+      flexWrap: "wrap",
+      flexDirection: "row",
+      gap: 40,
+      justifyContent: "center",
+    },
 
-  iconLabel: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
+    iconLabel: {
+      flexWrap: "wrap",
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 5,
+    },
 
-  tariffSection: {
-    gap: 5,
-  },
+    tariffSection: {
+      gap: 5,
+    },
 
-  radiobuttonContainer: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 70,
-  },
+    radiobuttonContainer: {
+      flexWrap: "wrap",
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 70,
+    },
 
-  checkboxContainer: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 10,
-  },
-});
+    checkboxContainer: {
+      flexWrap: "wrap",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      gap: 10,
+    },
+
+    footer: {
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      right: 0,
+      padding: 20,
+      backgroundColor: theme["app-background"],
+      height: 150,
+      justifyContent: "space-between",
+    },
+  });
+};
