@@ -1,28 +1,22 @@
 import { Platform } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Tabs } from "expo-router";
 
-import { useTheme } from "../context/ThemeContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
-import HomeNav from "./Home.jsx";
-import CalculatorNav from "./Calculator.jsx";
-import PricesNav from "./Prices.jsx";
-import SettingsNav from "./Settings.jsx";
+import { globalStyles } from "../../styles/globalStyles.js";
+import HomeIcon from "../../../assets/icons/HomeIcon.jsx";
+import CalcIcon from "../../../assets/icons/CalcIcon.jsx";
+import PriceIcon from "../../../assets/icons/PriceIcon.jsx";
+import SettingsIcon from "../../../assets/icons/SettingsIcon.jsx";
 
-import HomeIcon from "../../assets/icons/HomeIcon.jsx";
-import CalcIcon from "../../assets/icons/CalcIcon.jsx";
-import PriceIcon from "../../assets/icons/PriceIcon.jsx";
-import SettingsIcon from "../../assets/icons/SettingsIcon.jsx";
-import { globalStyles } from "../styles/globalStyles.js";
-
-const Tab = createBottomTabNavigator();
 const iconSize = 42;
 
-export default function TabNavigator() {
+export default function Layout() {
   const { theme } = useTheme();
   const themeStyles = globalStyles(theme);
 
   return (
-    <Tab.Navigator
+    <Tabs
       screenOptions={{
         headerStyle: {
           backgroundColor: theme["tab-navigator"],
@@ -42,9 +36,8 @@ export default function TabNavigator() {
         tabBarLabel: () => null,
       }}
     >
-      <Tab.Screen
-        name="home"
-        component={HomeNav}
+      <Tabs.Screen
+        name="index"
         options={{
           title: "Inicio",
           tabBarIcon: ({ focused }) => (
@@ -52,9 +45,8 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <Tab.Screen
+      <Tabs.Screen
         name="calculator"
-        component={CalculatorNav}
         options={{
           title: "Calculadora",
           tabBarIcon: ({ focused }) => (
@@ -62,9 +54,8 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <Tab.Screen
+      <Tabs.Screen
         name="prices"
-        component={PricesNav}
         options={{
           title: "Precios",
           tabBarIcon: ({ focused }) => (
@@ -72,9 +63,8 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <Tab.Screen
+      <Tabs.Screen
         name="settings"
-        component={SettingsNav}
         options={{
           title: "Configuración",
           tabBarIcon: ({ focused }) => (
@@ -82,6 +72,6 @@ export default function TabNavigator() {
           ),
         }}
       />
-    </Tab.Navigator>
+    </Tabs>
   );
 }

@@ -8,11 +8,13 @@ import { globalStyles } from "../styles/globalStyles.js";
 import LightModeIcon from "../../assets/icons/LightModeIcon.jsx";
 import DarkModeIcon from "../../assets/icons/DarkModeIcon.jsx";
 import { CustomButton } from "../components/CustomButtonComponent.jsx";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback } from "react";
+import { useRouter } from "expo-router";
+// import { useFocusEffect, useNavigation } from "@react-navigation/native";
+// import { useCallback } from "react";
 
 export default function SettingsView() {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
+  const router = useRouter();
   const { theme, mode, toggleTheme } = useTheme();
 
   const themeStyles = globalStyles(theme);
@@ -20,11 +22,11 @@ export default function SettingsView() {
   const lightmode = mode === "light";
   const darkmode = mode === "dark";
 
-  useFocusEffect(
-    useCallback(() => {
-      navigation.getParent()?.setOptions({ title: "Configuración" });
-    }, [navigation]),
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     navigation.getParent()?.setOptions({ title: "Configuración" });
+  //   }, [navigation]),
+  // );
 
   return (
     <View
@@ -58,14 +60,14 @@ export default function SettingsView() {
       <CustomButton
         size={"large"}
         text="Ver el tutorial"
-        onPress={() => handleNavigation(navigation)}
+        onPress={() => handleNavigation(router)}
       />
     </View>
   );
 }
 
-function handleNavigation(navigation) {
-  navigation.navigate("TutorialView");
+function handleNavigation(router) {
+  router.push({ pathname: "/(modals)/tutorial" });
 }
 
 const styles = StyleSheet.create({

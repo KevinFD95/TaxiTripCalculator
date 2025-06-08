@@ -1,6 +1,6 @@
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useHistory } from "../context/HistoryContext.jsx";
@@ -9,13 +9,9 @@ import { globalStyles } from "../styles/globalStyles.js";
 
 import { CustomTextInput } from "../components/CustomTextInputComponent.jsx";
 import { CustomButton } from "../components/CustomButtonComponent.jsx";
-import { useAlert } from "../context/AlertContext.jsx";
 
-export default function DetailsView({ navigation, route }) {
-  const { item } = route.params;
-
+export default function DetailsView({ item }) {
   const { theme } = useTheme();
-  const { showAlert } = useAlert();
   const { updateOp } = useHistory();
 
   const [inputValue, setInputValue] = useState("");
@@ -26,18 +22,9 @@ export default function DetailsView({ navigation, route }) {
     setInputValue(item.title);
   }, [item.title]);
 
-  useFocusEffect(
-    useCallback(() => {
-      navigation.getParent()?.setOptions({
-        title: item.title,
-      });
-    }, [navigation, item.title]),
-  );
-
   const handleSaveTitle = () => {
     const updatedItem = { ...item, title: inputValue };
     updateOp(updatedItem);
-    navigation.getParent()?.setOptions({ title: inputValue });
   };
 
   const suitcaseTotal =
@@ -153,9 +140,11 @@ export default function DetailsView({ navigation, route }) {
         size={"large"}
         text={"Guardar cambios"}
         onPress={() => {
-          showAlert({
-            title: "Éxito",
-            message: "Título guardado correctamente",
+          Toast.show({
+            type: "success",
+            text1: "Título guardado",
+            position: "bottom",
+            visibilityTime: 2000,
           });
           handleSaveTitle();
         }}

@@ -1,13 +1,11 @@
-import { useCallback } from "react";
 import { View, StyleSheet } from "react-native";
 import { useVideoPlayer, VideoView } from "expo-video";
 
 import tutorial from "../../assets/video/tutorial-taxi-calculator.mp4";
 import { useTheme } from "../context/ThemeContext";
 import { globalStyles } from "../styles/globalStyles";
-import { useFocusEffect } from "@react-navigation/native";
 
-export default function TutorialView({ navigation }) {
+export default function TutorialView() {
   const { theme } = useTheme();
 
   const themeStyles = globalStyles(theme);
@@ -16,14 +14,6 @@ export default function TutorialView({ navigation }) {
     player.lopp = false;
     player.play();
   });
-
-  useFocusEffect(
-    useCallback(() => {
-      navigation.getParent()?.setOptions({
-        title: "Tutorial",
-      });
-    }, [navigation]),
-  );
 
   return (
     <View style={themeStyles.mainContainer}>

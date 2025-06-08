@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+// import { useCallback } from "react";
 import { View, Text, FlatList } from "react-native";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+// import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useAlert } from "../context/AlertContext.jsx";
@@ -10,9 +10,11 @@ import { globalStyles } from "../styles/globalStyles.js";
 
 import Card from "../components/CardComponent.jsx";
 import { CustomButton } from "../components/CustomButtonComponent.jsx";
+import { useRouter } from "expo-router";
 
 export default function HomeView() {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
+  const router = useRouter();
 
   const { theme } = useTheme();
   const { showConfirm } = useAlert();
@@ -20,15 +22,19 @@ export default function HomeView() {
 
   const themeStyles = globalStyles(theme);
 
+  // const handleCardPress = (item) => {
+  //   navigation.navigate("DetailsView", { item });
+  // };
+
   const handleCardPress = (item) => {
-    navigation.navigate("DetailsView", { item });
+    router.push({ pathname: "/(modals)/[id]", params: { id: item.id } });
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      navigation.getParent()?.setOptions({ title: "Inicio" });
-    }, [navigation]),
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     navigation.getParent()?.setOptions({ title: "Inicio" });
+  //   }, [navigation]),
+  // );
 
   return (
     <View style={themeStyles.mainContainer}>

@@ -3,6 +3,8 @@
     "name": "TaxiCalc",
     "slug": "taxi-calc",
     "version": "1.0.1",
+    "scheme": "taxicalc",
+    "deepLinking": true,
     "orientation": "portrait",
     "icon": "./assets/taxi-app-icon.png",
     "userInterfaceStyle": "light",
