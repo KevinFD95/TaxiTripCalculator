@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import Toast from "react-native-toast-message";
+import { customToast } from "../../services/customToastService.js";
 
 export default function ModalLayout() {
   return (
@@ -10,7 +11,7 @@ export default function ModalLayout() {
           headerShown: false,
         }}
       />
-      <Toast />
+      <Toast config={customToast} />
     </>
   );
 }
