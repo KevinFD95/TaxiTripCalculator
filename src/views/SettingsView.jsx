@@ -3,17 +3,12 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { globalStyles } from "../styles/globalStyles.js";
 
-// import CustomSwitch from "../components/SwitchComponent.jsx";
-
 import LightModeIcon from "../../assets/icons/LightModeIcon.jsx";
 import DarkModeIcon from "../../assets/icons/DarkModeIcon.jsx";
 import { CustomButton } from "../components/CustomButtonComponent.jsx";
 import { useRouter } from "expo-router";
-// import { useFocusEffect, useNavigation } from "@react-navigation/native";
-// import { useCallback } from "react";
 
 export default function SettingsView() {
-  // const navigation = useNavigation();
   const router = useRouter();
   const { theme, mode, toggleTheme } = useTheme();
 
@@ -21,12 +16,6 @@ export default function SettingsView() {
 
   const lightmode = mode === "light";
   const darkmode = mode === "dark";
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     navigation.getParent()?.setOptions({ title: "Configuración" });
-  //   }, [navigation]),
-  // );
 
   return (
     <View

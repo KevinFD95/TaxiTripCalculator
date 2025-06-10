@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 
+import * as Linking from "expo-linking";
+// import * as Sharing from "expo-sharing";
+import * as Clipboard from "expo-clipboard";
+
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useHistory } from "../context/HistoryContext.jsx";
 
@@ -9,6 +13,8 @@ import { globalStyles } from "../styles/globalStyles.js";
 
 import { CustomTextInput } from "../components/CustomTextInputComponent.jsx";
 import { CustomButton } from "../components/CustomButtonComponent.jsx";
+
+import { encodeItem } from "../helpers/shareDetails.js";
 
 export default function DetailsView({ item }) {
   const { theme } = useTheme();
@@ -29,6 +35,13 @@ export default function DetailsView({ item }) {
 
   const suitcaseTotal =
     item.supplements.suitcase * item.supplements.suitcasePrice;
+
+  const handleShare = async () => {
+    const encoded = encodeItem(item);
+    const link = Linking.createURL(`/shared?data=${encoded}`);
+
+    await Clipboard.setStringAsync(link);
+  };
 
   return (
     <View
@@ -149,6 +162,7 @@ export default function DetailsView({ item }) {
           handleSaveTitle();
         }}
       />
+      <CustomButton size={"large"} text={"Compartir"} onPress={handleShare} />
     </View>
   );
 }

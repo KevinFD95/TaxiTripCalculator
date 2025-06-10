@@ -1,7 +1,15 @@
 import { Stack } from "expo-router";
+import { linking } from "../../router.js";
 
-export default function Layout() {
+export default function RootLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false, presentation: "modal" }} />
+    <Stack
+      linking={linking}
+      screenOptions={{
+        headerShown: false,
+        presentation: "modal",
+        animation: "slide_from_bottom",
+      }}
+    />
   );
 }

@@ -23,7 +23,7 @@ export default function Details() {
   return (
     <DetailsView
       item={item}
-      naviagation={{ getParent: () => ({ setOptions: () => {} }) }}
+      navigation={{ getParent: () => ({ setOptions: () => {} }) }}
     />
   );
 }

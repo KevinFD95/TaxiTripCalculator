@@ -4,7 +4,7 @@
     "slug": "taxi-calc",
     "version": "1.0.1",
     "scheme": "taxicalc",
-    "deepLinking": true,
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/taxi-app-icon.png",
     "userInterfaceStyle": "light",
@@ -18,10 +18,20 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.koleradev.taxicalc",
       "adaptiveIcon": {
         "foregroundImage": "./assets/taxi-app-icon.png"
       },
-      "package": "com.koleradev.taxicalc"
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme":"taxicalc",
+            "host": "*"
+          },
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/taxi-app-icon.png"
@@ -38,7 +48,10 @@
     ],
     "extra": {
       "router": {
-        "origin": false
+        "origin": "http://localhost",
+        "unstable_settings": {
+          "initialRouteName": "(modals)/[id]"
+        }
       },
       "eas": {
         "projectId": "4c8884ea-8340-4569-b67e-e5bac66f9bc5"
