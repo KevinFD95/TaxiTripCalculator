@@ -17,6 +17,8 @@ import ShareIcon from "../../assets/icons/ShareIcon.jsx";
 
 import { encodeItem } from "../helpers/codeDetails.js";
 
+const iconSize = 32;
+
 export default function DetailsView({ item }) {
   const { theme } = useTheme();
   const { updateOp, addOp, history } = useHistory();
@@ -155,9 +157,9 @@ export default function DetailsView({ item }) {
             }}
           />
         </View>
-        <View>
+        <View style={{ width: iconSize, height: iconSize }}>
           <CustomIconButton
-            icon={<ShareIcon size={32} />}
+            icon={<ShareIcon size={iconSize} />}
             onPress={() => handleShare(item)}
           />
         </View>
