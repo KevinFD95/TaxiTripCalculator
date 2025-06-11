@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet, Share } from "react-native";
 import Toast from "react-native-toast-message";
 
-import * as Linking from "expo-linking";
-// import * as Sharing from "expo-sharing";
-import * as Clipboard from "expo-clipboard";
+// import * as Linking from "expo-linking";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useHistory } from "../context/HistoryContext.jsx";
@@ -12,7 +10,12 @@ import { useHistory } from "../context/HistoryContext.jsx";
 import { globalStyles } from "../styles/globalStyles.js";
 
 import { CustomTextInput } from "../components/CustomTextInputComponent.jsx";
-import { CustomButton } from "../components/CustomButtonComponent.jsx";
+import {
+  CustomButton,
+  CustomIconButton,
+} from "../components/CustomButtonComponent.jsx";
+
+import ShareIcon from "../../assets/icons/ShareIcon.jsx";
 
 import { encodeItem } from "../helpers/shareDetails.js";
 
@@ -38,9 +41,11 @@ export default function DetailsView({ item }) {
 
   const handleShare = async () => {
     const encoded = encodeItem(item);
-    const link = Linking.createURL(`/shared?data=${encoded}`);
+    const url = `https://taxicalc.infinityfreeapp.com/?data=${encoded}`;
 
-    await Clipboard.setStringAsync(link);
+    await Share.share({
+      message: `Mira este cálculo: ${url}`,
+    });
   };
 
   return (
@@ -149,20 +154,26 @@ export default function DetailsView({ item }) {
           <Text style={themeStyles.h1}>{item.totalPrice}€</Text>
         </View>
       </View>
-      <CustomButton
-        size={"large"}
-        text={"Guardar cambios"}
-        onPress={() => {
-          Toast.show({
-            type: "success",
-            text1: "Título guardado",
-            position: "bottom",
-            visibilityTime: 2000,
-          });
-          handleSaveTitle();
-        }}
-      />
-      <CustomButton size={"large"} text={"Compartir"} onPress={handleShare} />
+
+      <View style={styles.buttonContainer}>
+        <CustomButton
+          size={"medium"}
+          text={"Guardar cambios"}
+          onPress={() => {
+            Toast.show({
+              type: "success",
+              text1: "Título guardado",
+              position: "bottom",
+              visibilityTime: 2000,
+            });
+            handleSaveTitle();
+          }}
+        />
+        <CustomIconButton
+          icon={<ShareIcon size={32} />}
+          onPress={handleShare}
+        />
+      </View>
     </View>
   );
 }
@@ -199,5 +210,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end",
     marginBottom: 10,
+  },
+
+  buttonContainer: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });

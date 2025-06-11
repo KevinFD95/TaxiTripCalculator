@@ -2,9 +2,10 @@
   "expo": {
     "name": "TaxiCalc",
     "slug": "taxi-calc",
-    "version": "1.1.0a",
+    "version": "1.1.0b",
     "scheme": "taxicalc",
-    "platforms": ["ios", "android"],
+    "deepLinking": true,
+    "platforms": ["ios", "android", "web"],
     "orientation": "portrait",
     "icon": "./assets/taxi-app-icon.png",
     "userInterfaceStyle": "light",
@@ -26,7 +27,7 @@
         {
           "action": "VIEW",
           "data": {
-            "scheme":"taxicalc",
+            "scheme": "taxicalc",
             "host": "*"
           },
           "category": ["BROWSABLE", "DEFAULT"]
@@ -49,9 +50,7 @@
     "extra": {
       "router": {
         "origin": "http://localhost",
-        "unstable_settings": {
-          "initialRouteName": "(modals)/[id]"
-        }
+        "src": "src"
       },
       "eas": {
         "projectId": "4c8884ea-8340-4569-b67e-e5bac66f9bc5"
