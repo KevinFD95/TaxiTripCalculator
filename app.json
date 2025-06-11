@@ -4,7 +4,6 @@
     "slug": "taxi-calc",
     "version": "1.1.0b",
     "scheme": "taxicalc",
-    "deepLinking": true,
     "platforms": ["ios", "android", "web"],
     "orientation": "portrait",
     "icon": "./assets/taxi-app-icon.png",
