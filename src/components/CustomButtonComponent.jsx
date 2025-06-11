@@ -13,7 +13,11 @@ export function CustomButton({ size, text, onPress }) {
 
   return (
     <Pressable
-      style={[styles(theme).buttonStyles, { width: sizeMap[size] ?? 0 }]}
+      style={({ pressed }) => [
+        styles(theme).buttonStyles,
+        { width: sizeMap[size] ?? 0 },
+        pressed && { opacity: 0.6 },
+      ]}
       onPress={onPress}
     >
       <Text style={styles(theme).buttonText}>{text}</Text>
@@ -22,7 +26,14 @@ export function CustomButton({ size, text, onPress }) {
 }
 
 export function CustomIconButton({ icon, onPress }) {
-  return <Pressable onPress={onPress}>{icon}</Pressable>;
+  return (
+    <Pressable
+      style={({ pressed }) => pressed && { opacity: 0.6 }}
+      onPress={onPress}
+    >
+      {icon}
+    </Pressable>
+  );
 }
 
 const styles = (theme) => {

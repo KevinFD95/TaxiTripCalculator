@@ -19,10 +19,6 @@ export default function HomeView() {
 
   const themeStyles = globalStyles(theme);
 
-  const handleCardPress = (item) => {
-    router.push({ pathname: "/(modals)/[id]", params: { id: item.id } });
-  };
-
   return (
     <View style={themeStyles.mainContainer}>
       {history.length > 0 ? (
@@ -37,7 +33,7 @@ export default function HomeView() {
                 title={item.title}
                 date={item.date}
                 price={item.totalPrice + "€"}
-                onPress={() => handleCardPress(item)}
+                onPress={() => handleCardPress(router, item)}
                 onLongPress={() => {
                   showConfirm({
                     title: "Borrar viaje",
@@ -68,6 +64,10 @@ export default function HomeView() {
       )}
     </View>
   );
+}
+
+function handleCardPress(router, item) {
+  router.push({ pathname: "/(modals)/[id]", params: { id: item.id } });
 }
 
 const styles = {

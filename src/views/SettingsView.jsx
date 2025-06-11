@@ -1,5 +1,7 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
+import Constants from "expo-constants";
+
 import { useTheme } from "../context/ThemeContext.jsx";
 import { globalStyles } from "../styles/globalStyles.js";
 
@@ -16,6 +18,8 @@ export default function SettingsView() {
 
   const lightmode = mode === "light";
   const darkmode = mode === "dark";
+
+  const version = Constants.expoConfig?.version ?? "Nula";
 
   return (
     <View
@@ -46,11 +50,16 @@ export default function SettingsView() {
         <Text style={themeStyles.p}>Desplegable</Text>
       </View> */}
 
-      <CustomButton
-        size={"large"}
-        text="Ver el tutorial"
-        onPress={() => handleNavigation(router)}
-      />
+      <View>
+        <Text style={[themeStyles.p, { textAlign: "right" }]}>
+          Versión: {version}
+        </Text>
+        <CustomButton
+          size={"large"}
+          text="Ver el tutorial"
+          onPress={() => handleNavigation(router)}
+        />
+      </View>
     </View>
   );
 }

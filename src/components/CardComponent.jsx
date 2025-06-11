@@ -16,7 +16,10 @@ export default function CardComponent({
 
   return (
     <Pressable
-      style={styles(theme).cardContainer}
+      style={({ pressed }) => [
+        styles(theme).cardContainer,
+        pressed && { opacity: 0.6 },
+      ]}
       onPress={onPress}
       onLongPress={onLongPress}
       delayLongPress={500}

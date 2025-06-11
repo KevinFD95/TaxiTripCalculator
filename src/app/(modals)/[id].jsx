@@ -18,8 +18,6 @@ export default function Details() {
     }
   }, [router, item]);
 
-  if (!item) return null;
-
   return (
     <DetailsView
       item={item}

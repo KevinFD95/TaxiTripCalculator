@@ -9,7 +9,13 @@ export function Popup({ visible, title, message, onClose }) {
         <View style={styles(theme).alertBox}>
           <Text style={styles(theme).title}>{title}</Text>
           <Text style={styles(theme).message}>{message}</Text>
-          <Pressable style={styles(theme).button} onPress={onClose}>
+          <Pressable
+            style={({ pressed }) => [
+              styles(theme).button,
+              pressed && { opacity: 0.6 },
+            ]}
+            onPress={onClose}
+          >
             <Text style={styles(theme).buttonText}>Aceptar</Text>
           </Pressable>
         </View>
@@ -27,10 +33,22 @@ export function ConfirmPopup({ visible, title, message, onConfirm, onCancel }) {
           <Text style={styles(theme).title}>{title}</Text>
           <Text style={styles(theme).message}>{message}</Text>
           <View style={styles(theme).buttonContainer}>
-            <Pressable style={styles(theme).button} onPress={onConfirm}>
+            <Pressable
+              style={({ pressed }) => [
+                styles(theme).button,
+                pressed && { opacity: 0.6 },
+              ]}
+              onPress={onConfirm}
+            >
               <Text style={styles(theme).buttonText}>Sí</Text>
             </Pressable>
-            <Pressable style={styles(theme).button} onPress={onCancel}>
+            <Pressable
+              style={({ pressed }) => [
+                styles(theme).button,
+                pressed && { opacity: 0.6 },
+              ]}
+              onPress={onCancel}
+            >
               <Text style={styles(theme).buttonText}>No</Text>
             </Pressable>
           </View>

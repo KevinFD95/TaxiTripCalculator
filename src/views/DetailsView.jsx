@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { View, ScrollView, Text, StyleSheet, Share } from "react-native";
 import Toast from "react-native-toast-message";
 
-// import * as Linking from "expo-linking";
-
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useHistory } from "../context/HistoryContext.jsx";
 
@@ -17,11 +15,11 @@ import {
 
 import ShareIcon from "../../assets/icons/ShareIcon.jsx";
 
-import { encodeItem } from "../helpers/shareDetails.js";
+import { encodeItem } from "../helpers/codeDetails.js";
 
 export default function DetailsView({ item }) {
   const { theme } = useTheme();
-  const { updateOp } = useHistory();
+  const { updateOp, addOp, history } = useHistory();
 
   const [inputValue, setInputValue] = useState("");
 
@@ -31,22 +29,8 @@ export default function DetailsView({ item }) {
     setInputValue(item.title);
   }, [item.title]);
 
-  const handleSaveTitle = () => {
-    const updatedItem = { ...item, title: inputValue };
-    updateOp(updatedItem);
-  };
-
   const suitcaseTotal =
     item.supplements.suitcase * item.supplements.suitcasePrice;
-
-  const handleShare = async () => {
-    const encoded = encodeItem(item);
-    const url = `https://taxicalc.infinityfreeapp.com/?data=${encoded}`;
-
-    await Share.share({
-      message: `Mira este cálculo: ${url}`,
-    });
-  };
 
   return (
     <View
@@ -156,26 +140,51 @@ export default function DetailsView({ item }) {
       </View>
 
       <View style={styles.buttonContainer}>
-        <CustomButton
-          size={"medium"}
-          text={"Guardar cambios"}
-          onPress={() => {
-            Toast.show({
-              type: "success",
-              text1: "Título guardado",
-              position: "bottom",
-              visibilityTime: 2000,
-            });
-            handleSaveTitle();
-          }}
-        />
-        <CustomIconButton
-          icon={<ShareIcon size={32} />}
-          onPress={handleShare}
-        />
+        <View style={{ flex: 1 }}>
+          <CustomButton
+            size={"large"}
+            text={"Guardar"}
+            onPress={() => {
+              Toast.show({
+                type: "success",
+                text1: "Cálculo guardado",
+                position: "bottom",
+                visibilityTime: 2000,
+              });
+              handleSave(item, inputValue, history, updateOp, addOp);
+            }}
+          />
+        </View>
+        <View>
+          <CustomIconButton
+            icon={<ShareIcon size={32} />}
+            onPress={() => handleShare(item)}
+          />
+        </View>
       </View>
     </View>
   );
+}
+
+function handleSave(item, inputValue, history, updateOp, addOp) {
+  const updatedItem = { ...item, title: inputValue };
+
+  const exists = history.some((op) => op.id === item.id);
+
+  if (exists) {
+    updateOp(updatedItem);
+  } else {
+    addOp(updatedItem);
+  }
+}
+
+async function handleShare(item) {
+  const encoded = encodeItem(item);
+  const url = `https://taxicalc.infinityfreeapp.com/?data=${encoded}`;
+
+  await Share.share({
+    message: `Mira este cálculo: ${url}`,
+  });
 }
 
 const styles = StyleSheet.create({
@@ -217,5 +226,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: 20,
   },
 });
