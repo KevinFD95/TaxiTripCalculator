@@ -73,66 +73,70 @@ export default function DetailsView({ item }) {
             <Text style={themeStyles.h6}>{item.priceKm}€/km</Text>
           </View>
 
-          <View style={styles.suppliesContainer}>
-            <Text style={[themeStyles.h4, styles.titleStyle]}>Suplementos</Text>
+          {showSupplementsSection(item.supplements, item.toll) && (
+            <View style={styles.suppliesContainer}>
+              <Text style={[themeStyles.h4, styles.titleStyle]}>
+                Suplementos
+              </Text>
 
-            {item.toll !== 0 && (
-              <View style={styles.rowContainer}>
-                <Text style={themeStyles.h6}>Peaje:</Text>
-                <Text style={themeStyles.h6}>{item.toll}€</Text>
-              </View>
-            )}
+              {item.toll !== 0 && (
+                <View style={styles.rowContainer}>
+                  <Text style={themeStyles.h6}>Peaje:</Text>
+                  <Text style={themeStyles.h6}>{item.toll}€</Text>
+                </View>
+              )}
 
-            {item.supplements.pick && (
-              <View style={styles.rowContainer}>
-                <Text style={themeStyles.h6}>Recogida:</Text>
-                <Text style={themeStyles.h6}>
-                  {item.supplements.pickPrice}€
-                </Text>
-              </View>
-            )}
-
-            {item.supplements.group && (
-              <View style={styles.rowContainer}>
-                <Text style={themeStyles.h6}>Grupo:</Text>
-                <Text style={themeStyles.h6}>
-                  {item.supplements.groupPrice}€
-                </Text>
-              </View>
-            )}
-
-            {item.supplements.airport && (
-              <View style={styles.rowContainer}>
-                <Text style={themeStyles.h6}>Aeropuerto:</Text>
-                <Text style={themeStyles.h6}>
-                  {item.supplements.airportPrice}€
-                </Text>
-              </View>
-            )}
-
-            {item.supplements.station && (
-              <View style={styles.rowContainer}>
-                <Text style={themeStyles.h6}>Salida de estación:</Text>
-                <Text style={themeStyles.h6}>
-                  {item.supplements.stationPrice}€
-                </Text>
-              </View>
-            )}
-
-            {item.supplements.suitcase > 0 && (
-              <View style={styles.rowContainer}>
-                <View>
+              {item.supplements.pick && (
+                <View style={styles.rowContainer}>
+                  <Text style={themeStyles.h6}>Recogida:</Text>
                   <Text style={themeStyles.h6}>
-                    Maletas: {item.supplements.suitcase}u
-                  </Text>
-                  <Text style={themeStyles.h6}>
-                    Precio por maleta: {item.supplements.suitcasePrice}€/u
+                    {item.supplements.pickPrice}€
                   </Text>
                 </View>
-                <Text style={themeStyles.h6}>{suitcaseTotal}€</Text>
-              </View>
-            )}
-          </View>
+              )}
+
+              {item.supplements.group && (
+                <View style={styles.rowContainer}>
+                  <Text style={themeStyles.h6}>Grupo:</Text>
+                  <Text style={themeStyles.h6}>
+                    {item.supplements.groupPrice}€
+                  </Text>
+                </View>
+              )}
+
+              {item.supplements.airport && (
+                <View style={styles.rowContainer}>
+                  <Text style={themeStyles.h6}>Aeropuerto:</Text>
+                  <Text style={themeStyles.h6}>
+                    {item.supplements.airportPrice}€
+                  </Text>
+                </View>
+              )}
+
+              {item.supplements.station && (
+                <View style={styles.rowContainer}>
+                  <Text style={themeStyles.h6}>Salida de estación:</Text>
+                  <Text style={themeStyles.h6}>
+                    {item.supplements.stationPrice}€
+                  </Text>
+                </View>
+              )}
+
+              {item.supplements.suitcase > 0 && (
+                <View style={styles.rowContainer}>
+                  <View>
+                    <Text style={themeStyles.h6}>
+                      Maletas: {item.supplements.suitcase}u
+                    </Text>
+                    <Text style={themeStyles.h6}>
+                      Precio por maleta: {item.supplements.suitcasePrice}€/u
+                    </Text>
+                  </View>
+                  <Text style={themeStyles.h6}>{suitcaseTotal}€</Text>
+                </View>
+              )}
+            </View>
+          )}
         </ScrollView>
 
         <View style={[styles.rowContainer, styles.totalPriceContainer]}>
@@ -166,6 +170,13 @@ export default function DetailsView({ item }) {
       </View>
     </View>
   );
+}
+
+function showSupplementsSection(supplements, toll) {
+  const hasTrueSupplement = Object.values(supplements).some(
+    (values) => values === true,
+  );
+  return toll !== 0 || hasTrueSupplement || supplements.suitcase > 0;
 }
 
 function handleSave(item, inputValue, history, updateOp, addOp) {

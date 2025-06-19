@@ -9,6 +9,13 @@ import { useHistory } from "../context/HistoryContext.jsx";
 import { globalStyles } from "../styles/globalStyles.js";
 
 import {
+  calculate,
+  getFlagPrice,
+  handleDistance,
+  handleToll,
+} from "../services/calculatorService.js";
+
+import {
   CustomButton,
   CustomIconButton,
 } from "../components/CustomButtonComponent.jsx";
@@ -18,8 +25,6 @@ import CheckboxIcon from "../../assets/icons/CheckboxIcon.jsx";
 import RadiobuttonIcon from "../../assets/icons/RadiobuttonIcon.jsx";
 import AddIcon from "../../assets/icons/AddIcon.jsx";
 import RemoveIcon from "../../assets/icons/RemoveIcon.jsx";
-
-import { formatDate } from "../helpers/dateFormatter.js";
 
 export default function CalculatorView() {
   const { theme } = useTheme();
@@ -61,7 +66,7 @@ export default function CalculatorView() {
             size={"large"}
             placeholder={"Selecciona la ruta para la distancia real"}
             value={distance}
-            onChangeText={(text) => handleDistance(text, setDistance)}
+            onChangeText={(text) => setDistance(handleDistance(text))}
             keyboardType="numeric"
           />
 
@@ -70,7 +75,7 @@ export default function CalculatorView() {
             size={"large"}
             placeholder={"Precio en euros"}
             value={toll}
-            onChangeText={(text) => handleToll(text, setToll)}
+            onChangeText={(text) => setToll(handleToll(text))}
             keyboardType="numeric"
           />
         </View>
@@ -203,102 +208,24 @@ export default function CalculatorView() {
               title: "Éxito",
               message: "Cálculo realizado correctamente",
             });
-            calculatePrice(showAlert, distance, toll);
+
+            setResult(
+              calculate(
+                showAlert,
+                settings,
+                addOp,
+                isDay,
+                isUrban,
+                supplement,
+                distance,
+                toll,
+              ),
+            );
           }}
         />
       </View>
     </View>
   );
-
-  function getFlagPrice(isDay, isUrban, settings) {
-    if (isDay && isUrban) return settings.dayTimePrice;
-    if (isDay && !isUrban) return settings.dayTimeIntPrice;
-    if (!isDay && isUrban) return settings.nightTimePrice;
-    return settings.nightTimeIntPrice;
-  }
-
-  function handleDistance(text, setDistance) {
-    const onlyNumbers = text.replace(/[^0-9]/g, "");
-    setDistance(onlyNumbers);
-  }
-
-  function handleToll(text, setToll) {
-    const normalized = text.replace(",", ".");
-    const cleaned = normalized.replace(/[^0-9.]/g, "");
-    const parts = cleaned.split(".");
-    const result =
-      parts.length > 2 ? parts[0] + "." + parts.slice(1).join("") : cleaned;
-
-    setToll(result);
-  }
-
-  function calculatePrice(showAlert, distance, toll) {
-    let supplements = 0;
-    let totalPrice = 0;
-    let result = 0;
-
-    const numericDistance = isUrban
-      ? parseFloat(distance) || 0
-      : parseFloat(distance) - 3 || 0;
-
-    const numericToll = parseFloat(toll) || 0;
-
-    if (isNaN(numericDistance) || numericDistance === 0) {
-      showAlert({ title: "Aviso", message: "Introduce distancia" });
-      setResult(totalPrice.toFixed(2));
-      return;
-    }
-
-    const flagPrice = parseFloat(getFlagPrice(isDay, isUrban, settings));
-
-    const priceKm = parseFloat(
-      isDay ? settings.dayKmPrice : settings.nightKmPrice,
-    );
-
-    supplements =
-      parseFloat(supplement.pick ? settings.pickPrice : 0) +
-      parseFloat(supplement.group ? settings.groupPrice : 0) +
-      parseFloat(supplement.airport ? settings.airportPrice : 0) +
-      parseFloat(supplement.station ? settings.stationPrice : 0) +
-      parseFloat(supplement.suitcase * settings.casePrice);
-
-    totalPrice = parseFloat(
-      flagPrice + priceKm * numericDistance + numericToll + supplements,
-    );
-
-    result = totalPrice.toFixed(2);
-
-    if (isNaN(result)) {
-      result = "0.00";
-    }
-
-    setResult(result);
-
-    addOp({
-      id: new Date().toISOString(),
-      title: "Nuevo cálculo",
-      date: formatDate(new Date().toISOString()),
-      distance: !isUrban ? numericDistance + 3 : numericDistance,
-      toll: numericToll,
-      time: isDay ? "Diurno" : "Nocturno",
-      tariff: isUrban ? "Urbana" : "Interurbana",
-      flagPrice,
-      priceKm,
-      supplements: {
-        pick: supplement.pick,
-        pickPrice: settings.pickPrice,
-        group: supplement.group,
-        groupPrice: settings.groupPrice,
-        airport: supplement.airport,
-        airportPrice: settings.airportPrice,
-        station: supplement.station,
-        stationPrice: settings.stationPrice,
-        suitcase: supplement.suitcase,
-        suitcasePrice: settings.casePrice,
-      },
-      totalPrice: result,
-    });
-  }
 }
 
 const styles = (theme) => {
@@ -309,14 +236,12 @@ const styles = (theme) => {
     },
 
     valuesSection: {
-      flexWrap: "wrap",
       flexDirection: "row",
-      gap: 40,
+      gap: 15,
       justifyContent: "center",
     },
 
     iconLabel: {
-      flexWrap: "wrap",
       flexDirection: "row",
       alignItems: "center",
       gap: 5,
@@ -328,13 +253,11 @@ const styles = (theme) => {
     },
 
     radiobuttonContainer: {
-      flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
     },
 
     checkboxContainer: {
-      flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "space-between",
       gap: 10,

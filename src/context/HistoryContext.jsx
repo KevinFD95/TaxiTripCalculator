@@ -21,7 +21,8 @@ export const HistoryProvider = ({ children }) => {
 
   const addOp = async (operation) => {
     const opWithId = {
-      id: Date.now().toString(),
+      id: new Date().toISOString(),
+      title: "Nuevo cálculo",
       ...operation,
     };
     const newHistory = [opWithId, ...history];
