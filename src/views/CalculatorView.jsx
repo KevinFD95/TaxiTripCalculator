@@ -21,7 +21,7 @@ import RemoveIcon from "../../assets/icons/RemoveIcon.jsx";
 
 import { formatDate } from "../helpers/dateFormatter.js";
 
-export default function CalculatorNav() {
+export default function CalculatorView() {
   const { theme } = useTheme();
   const { showAlert } = useAlert();
   const { settings } = useSettings();
@@ -32,17 +32,23 @@ export default function CalculatorNav() {
   const [distance, setDistance] = useState("");
   const [toll, setToll] = useState(0.0);
 
-  const [dayTime, setDayTime] = useState(true);
-  const [nightTime, setNightTime] = useState(false);
+  const [time, setTime] = useState("day");
+  const isDay = time === "day";
 
-  const [urban, setUrban] = useState(true);
-  const [interurban, setInterurban] = useState(false);
+  const [area, setArea] = useState("urban");
+  const isUrban = area === "urban";
 
-  const [pick, setPick] = useState(false);
-  const [group, setGroup] = useState(false);
-  const [airport, setAirport] = useState(false);
-  const [station, setStation] = useState(false);
-  const [suitcase, setSuitcase] = useState(0);
+  const [supplement, setSupplement] = useState({
+    pick: false,
+    group: false,
+    airport: false,
+    station: false,
+    suitcase: 0,
+  });
+
+  const toggleSupplement = (key) => {
+    setSupplement((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   let [result, setResult] = useState("0.00");
 
@@ -56,7 +62,7 @@ export default function CalculatorNav() {
             placeholder={"Selecciona la ruta para la distancia real"}
             value={distance}
             onChangeText={(text) => handleDistance(text, setDistance)}
-            type="numeric"
+            keyboardType="numeric"
           />
 
           <Text style={themeStyles.h6}>Introduce el precio del peaje:</Text>
@@ -65,7 +71,7 @@ export default function CalculatorNav() {
             placeholder={"Precio en euros"}
             value={toll}
             onChangeText={(text) => handleToll(text, setToll)}
-            type="numeric"
+            keyboardType="numeric"
           />
         </View>
 
@@ -76,21 +82,15 @@ export default function CalculatorNav() {
             <View style={styles(theme).tariffSection}>
               <View style={styles(theme).iconLabel}>
                 <CustomIconButton
-                  onPress={() => {
-                    setDayTime(true);
-                    setNightTime(false);
-                  }}
-                  icon={<RadiobuttonIcon size={32} checked={dayTime} />}
+                  onPress={() => setTime("day")}
+                  icon={<RadiobuttonIcon size={32} checked={isDay} />}
                 />
                 <Text style={themeStyles.h6}>Diurna</Text>
               </View>
               <View style={styles(theme).iconLabel}>
                 <CustomIconButton
-                  onPress={() => {
-                    setUrban(true);
-                    setInterurban(false);
-                  }}
-                  icon={<RadiobuttonIcon size={32} checked={urban} />}
+                  onPress={() => setArea("urban")}
+                  icon={<RadiobuttonIcon size={32} checked={isUrban} />}
                 />
                 <Text style={themeStyles.h6}>Urbana</Text>
               </View>
@@ -98,21 +98,15 @@ export default function CalculatorNav() {
             <View style={styles(theme).tariffSection}>
               <View style={styles(theme).iconLabel}>
                 <CustomIconButton
-                  onPress={() => {
-                    setNightTime(true);
-                    setDayTime(false);
-                  }}
-                  icon={<RadiobuttonIcon size={32} checked={nightTime} />}
+                  onPress={() => setTime("night")}
+                  icon={<RadiobuttonIcon size={32} checked={!isDay} />}
                 />
                 <Text style={themeStyles.h6}>Nocturna</Text>
               </View>
               <View style={styles(theme).iconLabel}>
                 <CustomIconButton
-                  onPress={() => {
-                    setInterurban(true);
-                    setUrban(false);
-                  }}
-                  icon={<RadiobuttonIcon size={32} checked={interurban} />}
+                  onPress={() => setArea("interurban")}
+                  icon={<RadiobuttonIcon size={32} checked={!isUrban} />}
                 />
                 <Text style={themeStyles.h6}>Interurbana</Text>
               </View>
@@ -122,19 +116,11 @@ export default function CalculatorNav() {
 
         <View style={styles(theme).valuesSection}>
           <Text style={[styles(theme).section, themeStyles.p]}>
-            Bajada de bandera:{" "}
-            {dayTime
-              ? urban
-                ? settings.dayTimePrice
-                : settings.dayTimeIntPrice
-              : urban
-                ? settings.nightTimePrice
-                : settings.nightTimeIntPrice}
-            €
+            Bajada de bandera: {getFlagPrice(isDay, isUrban, settings)}€
           </Text>
           <Text style={[styles(theme).section, themeStyles.p]}>
-            Precio del km:{" "}
-            {dayTime ? settings.dayKmPrice : settings.nightKmPrice}€
+            Precio del km: {isDay ? settings.dayKmPrice : settings.nightKmPrice}
+            €
           </Text>
         </View>
 
@@ -146,22 +132,22 @@ export default function CalculatorNav() {
           <View style={styles(theme).checkboxContainer}>
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
-                onPress={() => setPick(!pick)}
-                icon={<CheckboxIcon size={32} checked={pick} />}
+                onPress={() => toggleSupplement("pick")}
+                icon={<CheckboxIcon size={32} checked={supplement.pick} />}
               />
               <Text style={themeStyles.h6}>Recogida</Text>
             </View>
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
-                onPress={() => setGroup(!group)}
-                icon={<CheckboxIcon size={32} checked={group} />}
+                onPress={() => toggleSupplement("group")}
+                icon={<CheckboxIcon size={32} checked={supplement.group} />}
               />
               <Text style={themeStyles.h6}>Grupo</Text>
             </View>
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
-                onPress={() => setAirport(!airport)}
-                icon={<CheckboxIcon size={32} checked={airport} />}
+                onPress={() => toggleSupplement("airport")}
+                icon={<CheckboxIcon size={32} checked={supplement.airport} />}
               />
               <Text style={themeStyles.h6}>Aeropuerto</Text>
             </View>
@@ -169,21 +155,31 @@ export default function CalculatorNav() {
           <View style={styles(theme).checkboxContainer}>
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
-                onPress={() => setStation(!station)}
-                icon={<CheckboxIcon size={32} checked={station} />}
+                onPress={() => toggleSupplement("station")}
+                icon={<CheckboxIcon size={32} checked={supplement.station} />}
               />
               <Text style={themeStyles.h6}>Salida de estacion</Text>
             </View>
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
                 onPress={() =>
-                  setSuitcase(suitcase > 0 ? suitcase - 1 : suitcase)
+                  setSupplement((prev) => ({
+                    ...prev,
+                    suitcase: prev.suitcase > 0 ? prev.suitcase - 1 : 0,
+                  }))
                 }
                 icon={<RemoveIcon size={24} />}
               />
-              <Text style={[themeStyles.h6, { fontSize: 24 }]}>{suitcase}</Text>
+              <Text style={[themeStyles.h6, { fontSize: 24 }]}>
+                {supplement.suitcase}
+              </Text>
               <CustomIconButton
-                onPress={() => setSuitcase(suitcase + 1)}
+                onPress={() =>
+                  setSupplement((prev) => ({
+                    ...prev,
+                    suitcase: prev.suitcase + 1,
+                  }))
+                }
                 icon={<AddIcon size={24} />}
               />
               <Text style={themeStyles.h6}>Maletas</Text>
@@ -214,6 +210,13 @@ export default function CalculatorNav() {
     </View>
   );
 
+  function getFlagPrice(isDay, isUrban, settings) {
+    if (isDay && isUrban) return settings.dayTimePrice;
+    if (isDay && !isUrban) return settings.dayTimeIntPrice;
+    if (!isDay && isUrban) return settings.nightTimePrice;
+    return settings.nightTimeIntPrice;
+  }
+
   function handleDistance(text, setDistance) {
     const onlyNumbers = text.replace(/[^0-9]/g, "");
     setDistance(onlyNumbers);
@@ -234,9 +237,10 @@ export default function CalculatorNav() {
     let totalPrice = 0;
     let result = 0;
 
-    const numericDistance = urban
+    const numericDistance = isUrban
       ? parseFloat(distance) || 0
       : parseFloat(distance) - 3 || 0;
+
     const numericToll = parseFloat(toll) || 0;
 
     if (isNaN(numericDistance) || numericDistance === 0) {
@@ -245,25 +249,18 @@ export default function CalculatorNav() {
       return;
     }
 
-    const flagPrice = parseFloat(
-      dayTime
-        ? urban
-          ? settings.dayTimePrice
-          : settings.dayTimeIntPrice
-        : urban
-          ? settings.nightTimePrice
-          : settings.nightTimeIntPrice,
-    );
+    const flagPrice = parseFloat(getFlagPrice(isDay, isUrban, settings));
 
     const priceKm = parseFloat(
-      dayTime ? settings.dayKmPrice : settings.nightKmPrice,
+      isDay ? settings.dayKmPrice : settings.nightKmPrice,
     );
 
-    supplements += parseFloat(pick ? settings.pickPrice : 0);
-    supplements += parseFloat(group ? settings.groupPrice : 0);
-    supplements += parseFloat(airport ? settings.airportPrice : 0);
-    supplements += parseFloat(station ? settings.stationPrice : 0);
-    supplements += parseFloat(suitcase * settings.casePrice);
+    supplements =
+      parseFloat(supplement.pick ? settings.pickPrice : 0) +
+      parseFloat(supplement.group ? settings.groupPrice : 0) +
+      parseFloat(supplement.airport ? settings.airportPrice : 0) +
+      parseFloat(supplement.station ? settings.stationPrice : 0) +
+      parseFloat(supplement.suitcase * settings.casePrice);
 
     totalPrice = parseFloat(
       flagPrice + priceKm * numericDistance + numericToll + supplements,
@@ -281,22 +278,22 @@ export default function CalculatorNav() {
       id: new Date().toISOString(),
       title: "Nuevo cálculo",
       date: formatDate(new Date().toISOString()),
-      distance: interurban ? numericDistance + 3 : numericDistance,
+      distance: !isUrban ? numericDistance + 3 : numericDistance,
       toll: numericToll,
-      time: dayTime ? "Diurno" : "Nocturno",
-      tariff: urban ? "Urbana" : "Interurbana",
+      time: isDay ? "Diurno" : "Nocturno",
+      tariff: isUrban ? "Urbana" : "Interurbana",
       flagPrice,
       priceKm,
       supplements: {
-        pick,
+        pick: supplement.pick,
         pickPrice: settings.pickPrice,
-        group,
+        group: supplement.group,
         groupPrice: settings.groupPrice,
-        airport,
+        airport: supplement.airport,
         airportPrice: settings.airportPrice,
-        station,
+        station: supplement.station,
         stationPrice: settings.stationPrice,
-        suitcase: suitcase,
+        suitcase: supplement.suitcase,
         suitcasePrice: settings.casePrice,
       },
       totalPrice: result,
