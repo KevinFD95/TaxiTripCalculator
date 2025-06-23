@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
-import { View, ScrollView, Text, StyleSheet, Share } from "react-native";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useHistory } from "../context/HistoryContext.jsx";
 
 import { globalStyles } from "../styles/globalStyles.js";
+
+import {
+  showSupplementsSection,
+  handleSave,
+  handleShare,
+} from "../services/detailsService.js";
 
 import { CustomTextInput } from "../components/CustomTextInputComponent.jsx";
 import {
@@ -14,8 +20,6 @@ import {
 } from "../components/CustomButtonComponent.jsx";
 
 import ShareIcon from "../../assets/icons/ShareIcon.jsx";
-
-import { encodeItem } from "../helpers/codeDetails.js";
 
 const iconSize = 32;
 
@@ -170,34 +174,6 @@ export default function DetailsView({ item }) {
       </View>
     </View>
   );
-}
-
-function showSupplementsSection(supplements, toll) {
-  const hasTrueSupplement = Object.values(supplements).some(
-    (values) => values === true,
-  );
-  return toll !== 0 || hasTrueSupplement || supplements.suitcase > 0;
-}
-
-function handleSave(item, inputValue, history, updateOp, addOp) {
-  const updatedItem = { ...item, title: inputValue };
-
-  const exists = history.some((op) => op.id === item.id);
-
-  if (exists) {
-    updateOp(updatedItem);
-  } else {
-    addOp(updatedItem);
-  }
-}
-
-async function handleShare(item) {
-  const encoded = encodeItem(item);
-  const url = `https://taxicalc.infinityfreeapp.com/?data=${encoded}`;
-
-  await Share.share({
-    message: `Mira este cálculo: ${url}`,
-  });
 }
 
 const styles = StyleSheet.create({

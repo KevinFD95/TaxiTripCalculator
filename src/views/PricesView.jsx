@@ -1,17 +1,25 @@
 import { useState, useEffect } from "react";
-import { useTheme } from "../context/ThemeContext";
-import { useSettings } from "../context/SettingsContext";
-import { useAlert } from "../context/AlertContext";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
+
+import { useTheme } from "../context/ThemeContext";
+import { useAlert } from "../context/AlertContext";
+import { useSettings } from "../context/SettingsContext";
+
+import { globalStyles } from "../styles/globalStyles";
+
+import {
+  loadSettings,
+  saveSettings,
+  handleNumber,
+} from "../services/pricesService.js";
 
 import { CustomButton } from "../components/CustomButtonComponent";
 import { CustomTextInput } from "../components/CustomTextInputComponent";
-import { globalStyles } from "../styles/globalStyles";
 
 export default function PricesView() {
   const { theme } = useTheme();
-  const { settings, setSettings } = useSettings();
   const { showAlert } = useAlert();
+  const { settings, setSettings } = useSettings();
 
   const themeStyles = globalStyles(theme);
 
@@ -211,76 +219,6 @@ export default function PricesView() {
       />
     </View>
   );
-}
-
-function loadSettings(
-  settings,
-  setDayTimePrice,
-  setDayTimeIntPrice,
-  setDayKmPrice,
-  setNightTimePrice,
-  setNightTimeIntPrice,
-  setNightKmPrice,
-  setPickPrice,
-  setGroupPrice,
-  setAirportPrice,
-  setStationPrice,
-  setCasePrice,
-) {
-  setDayTimePrice(settings.dayTimePrice?.toString() || "0.00");
-  setDayTimeIntPrice(settings.dayTimeIntPrice?.toString() || "0.00");
-  setDayKmPrice(settings.dayKmPrice?.toString() || "0.00");
-  setNightTimePrice(settings.nightTimePrice?.toString() || "0.00");
-  setNightTimeIntPrice(settings.nightTimeIntPrice?.toString() || "0.00");
-  setNightKmPrice(settings.nightKmPrice?.toString() || "0.00");
-  setPickPrice(settings.pickPrice?.toString() || "0.00");
-  setGroupPrice(settings.groupPrice?.toString() || "0.00");
-  setAirportPrice(settings.airportPrice?.toString() || "0.00");
-  setStationPrice(settings.stationPrice?.toString() || "0.00");
-  setCasePrice(settings.casePrice?.toString() || "0.00");
-}
-
-function saveSettings(
-  setSettings,
-  dayTimePrice,
-  dayTimeIntPrice,
-  dayKmPrice,
-  nightTimePrice,
-  nightTimeIntPrice,
-  nightKmPrice,
-  pickPrice,
-  groupPrice,
-  airportPrice,
-  stationPrice,
-  casePrice,
-) {
-  setSettings({
-    dayTimePrice,
-    dayTimeIntPrice,
-    dayKmPrice,
-    nightTimePrice,
-    nightTimeIntPrice,
-    nightKmPrice,
-    pickPrice,
-    groupPrice,
-    airportPrice,
-    stationPrice,
-    casePrice,
-  });
-}
-
-function handleNumber(text) {
-  const normalized = text.replace(",", ".");
-  const cleaned = normalized.replace(/[^0-9.]/g, "");
-  const parts = cleaned.split(".");
-
-  if (parts.length === 1) {
-    return parts[0];
-  } else if (parts.length >= 2) {
-    const integerPart = parts[0];
-    const decimalPart = parts.slice(1).join("");
-    return integerPart + "." + decimalPart.slice(0, 2);
-  }
 }
 
 const styles = StyleSheet.create({
