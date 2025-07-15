@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet, Platform } from "react-native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useAlert } from "../context/AlertContext.jsx";
@@ -7,6 +7,11 @@ import { useSettings } from "../context/SettingsContext.jsx";
 import { useHistory } from "../context/HistoryContext.jsx";
 
 import { globalStyles } from "../styles/globalStyles.js";
+import {
+  responsivePadding,
+  responsiveIconSize,
+  responsiveGap,
+} from "../utils/responsive.js";
 
 import {
   calculate,
@@ -57,9 +62,16 @@ export default function CalculatorView() {
 
   let [result, setResult] = useState("0.00");
 
+  // Tamaños responsivos
+  const iconSizeLarge = responsiveIconSize(32);
+  const iconSizeSmall = responsiveIconSize(24);
+
   return (
-    <View style={themeStyles.mainContainer}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 150 }}>
+    <View style={[themeStyles.mainContainer, { flex: 1 }]}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingBottom: responsiveGap(20) }}
+      >
         <View style={styles(theme).section}>
           <Text style={themeStyles.h6}>Introduce la distancia (km):</Text>
           <CustomTextInput
@@ -88,14 +100,18 @@ export default function CalculatorView() {
               <View style={styles(theme).iconLabel}>
                 <CustomIconButton
                   onPress={() => setTime("day")}
-                  icon={<RadiobuttonIcon size={32} checked={isDay} />}
+                  icon={
+                    <RadiobuttonIcon size={iconSizeLarge} checked={isDay} />
+                  }
                 />
                 <Text style={themeStyles.h6}>Diurna</Text>
               </View>
               <View style={styles(theme).iconLabel}>
                 <CustomIconButton
                   onPress={() => setArea("urban")}
-                  icon={<RadiobuttonIcon size={32} checked={isUrban} />}
+                  icon={
+                    <RadiobuttonIcon size={iconSizeLarge} checked={isUrban} />
+                  }
                 />
                 <Text style={themeStyles.h6}>Urbana</Text>
               </View>
@@ -104,14 +120,18 @@ export default function CalculatorView() {
               <View style={styles(theme).iconLabel}>
                 <CustomIconButton
                   onPress={() => setTime("night")}
-                  icon={<RadiobuttonIcon size={32} checked={!isDay} />}
+                  icon={
+                    <RadiobuttonIcon size={iconSizeLarge} checked={!isDay} />
+                  }
                 />
                 <Text style={themeStyles.h6}>Nocturna</Text>
               </View>
               <View style={styles(theme).iconLabel}>
                 <CustomIconButton
                   onPress={() => setArea("interurban")}
-                  icon={<RadiobuttonIcon size={32} checked={!isUrban} />}
+                  icon={
+                    <RadiobuttonIcon size={iconSizeLarge} checked={!isUrban} />
+                  }
                 />
                 <Text style={themeStyles.h6}>Interurbana</Text>
               </View>
@@ -138,21 +158,36 @@ export default function CalculatorView() {
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
                 onPress={() => toggleSupplement("pick")}
-                icon={<CheckboxIcon size={32} checked={supplement.pick} />}
+                icon={
+                  <CheckboxIcon
+                    size={iconSizeLarge}
+                    checked={supplement.pick}
+                  />
+                }
               />
               <Text style={themeStyles.h6}>Recogida</Text>
             </View>
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
                 onPress={() => toggleSupplement("group")}
-                icon={<CheckboxIcon size={32} checked={supplement.group} />}
+                icon={
+                  <CheckboxIcon
+                    size={iconSizeLarge}
+                    checked={supplement.group}
+                  />
+                }
               />
               <Text style={themeStyles.h6}>Grupo</Text>
             </View>
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
                 onPress={() => toggleSupplement("airport")}
-                icon={<CheckboxIcon size={32} checked={supplement.airport} />}
+                icon={
+                  <CheckboxIcon
+                    size={iconSizeLarge}
+                    checked={supplement.airport}
+                  />
+                }
               />
               <Text style={themeStyles.h6}>Aeropuerto</Text>
             </View>
@@ -161,7 +196,12 @@ export default function CalculatorView() {
             <View style={styles(theme).iconLabel}>
               <CustomIconButton
                 onPress={() => toggleSupplement("station")}
-                icon={<CheckboxIcon size={32} checked={supplement.station} />}
+                icon={
+                  <CheckboxIcon
+                    size={iconSizeLarge}
+                    checked={supplement.station}
+                  />
+                }
               />
               <Text style={themeStyles.h6}>Salida de estacion</Text>
             </View>
@@ -173,7 +213,7 @@ export default function CalculatorView() {
                     suitcase: prev.suitcase > 0 ? prev.suitcase - 1 : 0,
                   }))
                 }
-                icon={<RemoveIcon size={24} />}
+                icon={<RemoveIcon size={iconSizeSmall} />}
               />
               <Text style={[themeStyles.h6, { fontSize: 24 }]}>
                 {supplement.suitcase}
@@ -185,7 +225,7 @@ export default function CalculatorView() {
                     suitcase: prev.suitcase + 1,
                   }))
                 }
-                icon={<AddIcon size={24} />}
+                icon={<AddIcon size={iconSizeSmall} />}
               />
               <Text style={themeStyles.h6}>Maletas</Text>
             </View>
@@ -194,7 +234,7 @@ export default function CalculatorView() {
       </ScrollView>
 
       <View style={styles(theme).footer}>
-        <View style={{ flex: 1, justifyContent: "center" }}>
+        <View style={styles(theme).resultContainer}>
           <Text style={[themeStyles.h1, { textAlign: "center" }]}>
             {result}€
           </Text>
@@ -231,24 +271,24 @@ export default function CalculatorView() {
 const styles = (theme) => {
   return StyleSheet.create({
     section: {
-      marginBottom: 20,
-      gap: 10,
+      marginBottom: responsiveGap(20),
+      gap: responsiveGap(10),
     },
 
     valuesSection: {
       flexDirection: "row",
-      gap: 15,
+      gap: responsiveGap(15),
       justifyContent: "center",
     },
 
     iconLabel: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 5,
+      gap: responsiveGap(5),
     },
 
     tariffSection: {
-      gap: 5,
+      gap: responsiveGap(5),
       width: "50%",
     },
 
@@ -260,18 +300,25 @@ const styles = (theme) => {
     checkboxContainer: {
       flexDirection: "row",
       justifyContent: "space-between",
-      gap: 10,
+      gap: responsiveGap(10),
     },
 
     footer: {
-      position: "absolute",
-      bottom: 0,
-      left: 0,
-      right: 0,
-      padding: 20,
+      paddingTop: responsivePadding(20),
       backgroundColor: theme["app-background"],
-      height: 150,
       justifyContent: "space-between",
+      flexShrink: 0,
+      ...(Platform.OS === "web" && {
+        position: "sticky",
+        bottom: 0,
+        zIndex: 100,
+      }),
+    },
+
+    resultContainer: {
+      paddingVertical: responsiveGap(10),
+      justifyContent: "center",
+      alignItems: "center",
     },
   });
 };

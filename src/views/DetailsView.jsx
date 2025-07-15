@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
-import Toast from "react-native-toast-message";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useHistory } from "../context/HistoryContext.jsx";
+import { responsiveIconSize, responsiveGap } from "../utils/responsive.js";
+import { showToastWeb } from "../utils/toastUtils.js";
 
 import { globalStyles } from "../styles/globalStyles.js";
 
@@ -21,8 +22,6 @@ import {
 
 import ShareIcon from "../../assets/icons/ShareIcon.jsx";
 
-const iconSize = 32;
-
 export default function DetailsView({ item }) {
   const { theme } = useTheme();
   const { updateOp, addOp, history } = useHistory();
@@ -30,6 +29,7 @@ export default function DetailsView({ item }) {
   const [inputValue, setInputValue] = useState("");
 
   const themeStyles = globalStyles(theme);
+  const iconSize = responsiveIconSize(32);
 
   useEffect(() => {
     setInputValue(item.title);
@@ -155,12 +155,7 @@ export default function DetailsView({ item }) {
             size={"large"}
             text={"Guardar"}
             onPress={() => {
-              Toast.show({
-                type: "success",
-                text1: "Cálculo guardado",
-                position: "bottom",
-                visibilityTime: 2000,
-              });
+              showToastWeb("success", "Cálculo guardado");
               handleSave(item, inputValue, history, updateOp, addOp);
             }}
           />
@@ -179,12 +174,12 @@ export default function DetailsView({ item }) {
 const styles = StyleSheet.create({
   detailsContainer: {
     flex: 1,
-    gap: 5,
+    gap: responsiveGap(5),
   },
 
   titleStyle: {
     textAlign: "center",
-    marginVertical: 10,
+    marginVertical: responsiveGap(10),
   },
 
   rowContainer: {
@@ -194,7 +189,7 @@ const styles = StyleSheet.create({
   },
 
   suppliesContainer: {
-    gap: 5,
+    gap: responsiveGap(5),
   },
 
   priceContainer: {
@@ -207,7 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     alignItems: "flex-end",
-    marginBottom: 10,
+    marginBottom: responsiveGap(10),
   },
 
   buttonContainer: {
@@ -215,6 +210,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 20,
+    gap: responsiveGap(20),
   },
 });

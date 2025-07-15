@@ -1,6 +1,7 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
+import { responsivePadding } from "../utils/responsive.js";
 
 import { globalStyles } from "../styles/globalStyles.js";
 
@@ -45,7 +46,7 @@ const styles = (theme) => {
       borderWidth: 1,
       borderColor: theme["input-border-color"],
       borderRadius: 10,
-      padding: 10,
+      padding: responsivePadding(10),
       shadowOffset: { width: 0, height: 5 },
       shadowColor: theme["input-border-color"],
       shadowOpacity: 0.3,

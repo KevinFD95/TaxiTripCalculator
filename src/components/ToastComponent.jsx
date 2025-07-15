@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { globalStyles } from "../styles/globalStyles.js";
+import { responsivePadding } from "../utils/responsive.js";
 
 export default function CustomToast({ text1, text2 }) {
   const { theme } = useTheme();
@@ -22,15 +23,27 @@ const styles = (theme) => {
       borderRadius: 10,
       borderWidth: 1,
       borderColor: theme["input-border-color"],
-      padding: 16,
-      marginHorizontal: 20,
-      marginTop: 20,
+      padding: responsivePadding(16),
+      marginHorizontal: responsivePadding(20),
+      marginTop: responsivePadding(20),
       alignSelf: "stretch",
       alignItems: "center",
-      elevation: 3,
-      shadowColor: "#000",
-      shadowOpacity: 0.2,
-      shadowOffset: { width: 0, height: 2 },
+      // Mejorar para web
+      ...(Platform.OS === "web" && {
+        position: "relative",
+        zIndex: 9999,
+        maxWidth: 400,
+        alignSelf: "center",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      }),
+      // Sombras para mobile
+      ...(Platform.OS !== "web" && {
+        elevation: 3,
+        shadowColor: "#000",
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 4,
+      }),
     },
     title: {
       marginBottom: 4,

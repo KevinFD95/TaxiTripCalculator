@@ -1,57 +1,58 @@
 import { StyleSheet } from "react-native";
+import { responsiveFontSize, responsivePadding } from "../utils/responsive.js";
 
 export const globalStyles = (theme) => {
   return StyleSheet.create({
     mainContainer: {
       flexGrow: 1,
-      padding: 20,
+      padding: responsivePadding(20),
       backgroundColor: theme["app-background"],
     },
 
     h1: {
-      fontSize: 32,
+      fontSize: responsiveFontSize(32),
       fontWeight: "bold",
       color: theme["color-text"],
     },
 
     h2: {
-      fontSize: 28,
+      fontSize: responsiveFontSize(28),
       fontWeight: 600,
       color: theme["color-text"],
     },
 
     h3: {
-      fontSize: 24,
+      fontSize: responsiveFontSize(24),
       fontWeight: 500,
       color: theme["color-text"],
     },
 
     h4: {
-      fontSize: 20,
+      fontSize: responsiveFontSize(20),
       fontWeight: 500,
       color: theme["color-text"],
     },
 
     h5: {
-      fontSize: 18,
+      fontSize: responsiveFontSize(18),
       fontWeight: 500,
       color: theme["color-text"],
     },
 
     h6: {
-      fontSize: 16,
+      fontSize: responsiveFontSize(16),
       fontWeight: 500,
       color: theme["color-text"],
     },
 
     p: {
-      fontSize: 14,
+      fontSize: responsiveFontSize(14),
       fontWeight: 400,
       color: theme["color-text"],
     },
 
     enfasis: {
-      fontSize: 14,
+      fontSize: responsiveFontSize(14),
       fontWeight: 500,
       fontStyle: "italic",
       color: theme["color-text"],

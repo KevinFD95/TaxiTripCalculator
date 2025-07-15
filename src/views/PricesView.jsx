@@ -4,6 +4,7 @@ import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { useTheme } from "../context/ThemeContext";
 import { useAlert } from "../context/AlertContext";
 import { useSettings } from "../context/SettingsContext";
+import { responsiveGap } from "../utils/responsive.js";
 
 import { globalStyles } from "../styles/globalStyles";
 
@@ -223,14 +224,14 @@ export default function PricesView() {
 
 const styles = StyleSheet.create({
   section: {
-    marginBottom: 20,
+    marginBottom: responsiveGap(20),
   },
   subsection: {
-    marginBottom: 5,
+    marginBottom: responsiveGap(5),
   },
   rowSection: {
     flexDirection: "row",
-    gap: 20,
+    gap: responsiveGap(20),
     alignItems: "center",
   },
 });

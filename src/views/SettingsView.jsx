@@ -4,6 +4,7 @@ import Constants from "expo-constants";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { globalStyles } from "../styles/globalStyles.js";
+import { responsiveIconSize, responsiveGap } from "../utils/responsive.js";
 
 import LightModeIcon from "../../assets/icons/LightModeIcon.jsx";
 import DarkModeIcon from "../../assets/icons/DarkModeIcon.jsx";
@@ -15,6 +16,7 @@ export default function SettingsView() {
   const { theme, mode, toggleTheme } = useTheme();
 
   const themeStyles = globalStyles(theme);
+  const iconSize = responsiveIconSize(42);
 
   const lightmode = mode === "light";
   const darkmode = mode === "dark";
@@ -27,20 +29,26 @@ export default function SettingsView() {
     >
       <View style={styles.settingContainer}>
         <Text style={themeStyles.h3}>Tema</Text>
-        <View style={{ flexWrap: "wrap", flexDirection: "row", gap: 10 }}>
+        <View
+          style={{
+            flexWrap: "wrap",
+            flexDirection: "row",
+            gap: responsiveGap(10),
+          }}
+        >
           <Pressable
             onPress={() => {
               if (!lightmode) toggleTheme("light");
             }}
           >
-            <LightModeIcon size={42} focused={lightmode} />
+            <LightModeIcon size={iconSize} focused={lightmode} />
           </Pressable>
           <Pressable
             onPress={() => {
               if (!darkmode) toggleTheme("dark");
             }}
           >
-            <DarkModeIcon size={42} focused={darkmode} />
+            <DarkModeIcon size={iconSize} focused={darkmode} />
           </Pressable>
         </View>
       </View>
@@ -74,6 +82,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: responsiveGap(20),
   },
 });
