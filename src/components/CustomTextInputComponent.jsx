@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { TextInput, StyleSheet, Platform } from "react-native";
 import { useTheme } from "../context/ThemeContext";
-import { TextInput, StyleSheet } from "react-native";
 
 const sizeMap = {
   large: "100%",
@@ -18,6 +18,8 @@ export function CustomTextInput({
   const { theme } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
 
+  const isNumeric = type === "numeric" || type === "decimal-pad";
+
   return (
     <TextInput
       style={[
@@ -29,6 +31,7 @@ export function CustomTextInput({
       onChangeText={onChangeText}
       placeholder={placeholder}
       keyboardType={type}
+      {...(Platform.OS === "web" && isNumeric ? { inputMode: "decimal" } : {})}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
     />
