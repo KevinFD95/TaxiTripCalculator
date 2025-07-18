@@ -34,7 +34,8 @@
       ]
     },
     "web": {
-      "favicon": "./assets/taxi-app-icon.png"
+      "favicon": "./assets/taxi-app-icon.png",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
