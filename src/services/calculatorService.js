@@ -7,19 +7,30 @@ export function getFlagPrice(isDay, isUrban, settings) {
   return settings.nightTimeIntPrice;
 }
 
-export function handleDistance(text) {
-  const onlyNumbers = text.replace(/[^0-9]/g, "");
-  return onlyNumbers;
-}
+export function handleValue(text) {
+  if (!text) return "";
 
-export function handleToll(text) {
   const normalized = text.replace(",", ".");
   const cleaned = normalized.replace(/[^0-9.]/g, "");
   const parts = cleaned.split(".");
-  const result =
-    parts.length > 2 ? parts[0] + "." + parts.slice(1).join("") : cleaned;
 
-  return result;
+  if (parts.length === 1) {
+    return parts[0];
+  }
+
+  if (parts.length >= 2) {
+    const integerPart = parts[0];
+    const decimalPart = parts[1];
+    const limitedDecimalPart = decimalPart.slice(0, 2);
+
+    if (limitedDecimalPart === "") {
+      return integerPart + ".";
+    }
+
+    return integerPart + "." + limitedDecimalPart;
+  }
+
+  return cleaned;
 }
 
 export function calculate(

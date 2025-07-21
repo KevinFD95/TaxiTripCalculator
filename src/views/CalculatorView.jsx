@@ -16,8 +16,7 @@ import {
 import {
   calculate,
   getFlagPrice,
-  handleDistance,
-  handleToll,
+  handleValue,
 } from "../services/calculatorService.js";
 
 import {
@@ -78,8 +77,8 @@ export default function CalculatorView() {
             size={"large"}
             placeholder={"Selecciona la ruta para la distancia real"}
             value={distance}
-            onChangeText={(text) => setDistance(handleDistance(text))}
-            keyboardType="numeric"
+            onChangeText={(text) => setDistance(handleValue(text))}
+            type="numeric"
           />
 
           <Text style={themeStyles.h6}>Introduce el precio del peaje:</Text>
@@ -87,8 +86,8 @@ export default function CalculatorView() {
             size={"large"}
             placeholder={"Precio en euros"}
             value={toll}
-            onChangeText={(text) => setToll(handleToll(text))}
-            keyboardType="numeric"
+            onChangeText={(text) => setToll(handleValue(text))}
+            type="numeric"
           />
         </View>
 
