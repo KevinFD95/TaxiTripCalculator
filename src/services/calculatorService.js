@@ -46,6 +46,7 @@ export function calculate(
   let supplements = 0;
   let totalPrice = 0;
   let result = 0;
+  const marginError = 5;
 
   const numericDistance = isUrban
     ? parseFloat(distance) || 0
@@ -73,7 +74,11 @@ export function calculate(
     parseFloat(supplement.suitcase * settings.casePrice);
 
   totalPrice = parseFloat(
-    flagPrice + priceKm * numericDistance + numericToll + supplements,
+    flagPrice +
+      priceKm * numericDistance +
+      numericToll +
+      supplements +
+      marginError,
   );
 
   result = totalPrice.toFixed(2);
