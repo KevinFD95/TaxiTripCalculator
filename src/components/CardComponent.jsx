@@ -26,7 +26,9 @@ export default function CardComponent({
       delayLongPress={500}
     >
       <View style={styles(theme).dataContainer}>
-        <Text style={themeStyles.h4}>{title}</Text>
+        <Text style={themeStyles.h4} numberOfLines={2} ellipsizeMode="tail">
+          {title}
+        </Text>
         <Text style={themeStyles.p}>{date}</Text>
       </View>
       <View style={styles(theme).priceContainer}>
@@ -43,6 +45,7 @@ const styles = (theme) => {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
+      gap: 15,
       backgroundColor: theme["app-background"],
       borderWidth: 1,
       borderColor: theme["input-border-color"],
@@ -56,7 +59,7 @@ const styles = (theme) => {
     },
 
     dataContainer: {
-      width: "60%",
+      width: "55%",
     },
 
     priceContainer: {
