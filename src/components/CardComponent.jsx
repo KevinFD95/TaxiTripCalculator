@@ -25,12 +25,13 @@ export default function CardComponent({
       onLongPress={onLongPress}
       delayLongPress={500}
     >
-      <View>
+      <View style={styles(theme).dataContainer}>
         <Text style={themeStyles.h4}>{title}</Text>
         <Text style={themeStyles.p}>{date}</Text>
       </View>
-
-      <Text style={themeStyles.h2}>{price}</Text>
+      <View style={styles(theme).priceContainer}>
+        <Text style={themeStyles.h2}>{price}</Text>
+      </View>
     </Pressable>
   );
 }
@@ -52,6 +53,15 @@ const styles = (theme) => {
       shadowOpacity: 0.3,
       shadowRadius: 4,
       elevation: 3,
+    },
+
+    dataContainer: {
+      width: "60%",
+    },
+
+    priceContainer: {
+      width: "40%",
+      alignItems: "flex-end",
     },
   });
 };
