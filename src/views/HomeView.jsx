@@ -24,6 +24,7 @@ export default function HomeView() {
       {history.length > 0 ? (
         <View style={{ flex: 1, justifyContent: "space-between" }}>
           <FlatList
+            style={{ flex: 1 }}
             data={history}
             keyExtractor={(item, index) =>
               item.id?.toString() || index.toString()
