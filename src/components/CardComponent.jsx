@@ -43,6 +43,7 @@ const styles = (theme) => {
     cardContainer: {
       flex: 1,
       flexDirection: "row",
+      maxHeight: 80,
       justifyContent: "space-between",
       alignItems: "center",
       gap: 15,

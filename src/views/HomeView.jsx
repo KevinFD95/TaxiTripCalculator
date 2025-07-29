@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useAlert } from "../context/AlertContext.jsx";
@@ -20,17 +20,13 @@ export default function HomeView() {
   const themeStyles = globalStyles(theme);
 
   return (
-    <View style={themeStyles.mainContainer}>
+    <View style={[themeStyles.mainContainer, { flex: 1 }]}>
       {history.length > 0 ? (
-        <View style={{ flex: 1, justifyContent: "space-between" }}>
-          <FlatList
-            style={{ flex: 1 }}
-            data={history}
-            keyExtractor={(item, index) =>
-              item.id?.toString() || index.toString()
-            }
-            renderItem={({ item }) => (
+        <View style={{ flex: 1, position: "relative" }}>
+          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ gap: 20 }}>
+            {history.map((item) => (
               <Card
+                key={item.id}
                 title={item.title}
                 date={item.date}
                 price={item.totalPrice + "€"}
@@ -43,9 +39,8 @@ export default function HomeView() {
                   });
                 }}
               />
-            )}
-            contentContainerStyle={{ gap: 20 }}
-          />
+            ))}
+          </ScrollView>
           <CustomButton
             text={"Limpiar historial"}
             size={"large"}
